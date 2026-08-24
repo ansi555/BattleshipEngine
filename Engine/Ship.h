@@ -1,14 +1,17 @@
-#include <vector>
+#pragma once
+
 #include "Coordinate.h"
+#include <vector>
 
-class Ship {
-    private:
-        std::vector<Coordinate> positions;
-        std::vector<bool> shipHits;
+class Ship
+{
+private:
+    std::vector<Coordinate> positions;
+    std::vector<bool> shipHits;
 
-    public:
-        Ship(const std::vector<Coordinate> &coords);
+public:
+    Ship(std::vector<Coordinate> coords);
 
-        bool hit(const Coordinate &coord);
-        bool isSunk();
+    bool hit(Coordinate coord);
+    bool isSunk();
 };

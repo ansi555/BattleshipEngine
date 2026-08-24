@@ -11,7 +11,7 @@
       "cwd": "/home/developer/Documents/BattleshipEngine",
       "program": "/home/developer/Documents/BattleshipEngine/build/Debug/outDebug",
       "MIMode": "gdb",
-      "miDebuggerPath": "gdb",
+      "miDebuggerPath": "/usr/bin/gdb",
       "setupCommands": [
         {
           "description": "Enable pretty-printing for gdb",
