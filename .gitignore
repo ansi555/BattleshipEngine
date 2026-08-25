@@ -95,6 +95,7 @@ bld/
 [Oo]bj/
 [Ll]og/
 [Ll]ogs/
+.vs/
 
 # Files built by Visual Studio
 *_i.c
