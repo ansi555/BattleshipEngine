@@ -142,11 +142,13 @@
     <ClCompile Include="..\Engine\Board.cpp" />
     <ClCompile Include="..\Engine\Ship.cpp" />
     <ClCompile Include="..\main.cpp" />
+    <ClCompile Include="Player.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\Engine\Board.h" />
     <ClInclude Include="..\Engine\Coordinate.h" />
     <ClInclude Include="..\Engine\Ship.h" />
+    <ClInclude Include="Player.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
