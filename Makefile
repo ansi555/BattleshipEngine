@@ -4,7 +4,7 @@ CXXFLAGS = -Wall -Wextra -std=c++20
 
 LIBS = -lsfml-graphics -lsfml-window -lsfml-system
 
-SRC = main.cpp Engine/*.cpp
+SRC = Engine/*.cpp
 
 TARGET = Battleship
 
