@@ -14,7 +14,7 @@ bool Board::placeShip(Ship ship)
 
 bool Board::shoot(Coordinate coord)
 {
-    for (int i = 0; i < ships.size(); i++)
+    for (size_t i = 0; i < ships.size(); i++)
     {
         if (ships[i].hit(coord))
         {
@@ -27,7 +27,7 @@ bool Board::shoot(Coordinate coord)
 
 bool Board::allShipsDestroyed()
 {
-    for (int i = 0; i < ships.size(); i++)
+    for (size_t i = 0; i < ships.size(); i++)
     {
         if (ships[i].isSunk() == false)
         {
