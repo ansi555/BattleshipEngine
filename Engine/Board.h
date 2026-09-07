@@ -10,14 +10,16 @@ private:
     int height;
 
     std::vector<Ship> ships;
-    std::vector<Coordinate> shots;
 
 public:
-    Board(int width = 10, int height = 10);
+    Board(int width = 15, int height = 15);
 
-    bool placeShip(const Ship ship);
+    int getWidth();
+    int getHeight();
 
-    bool shoot(const Coordinate coord);
+    bool placeShip(Ship ship);
+
+    bool shoot(Coordinate coord);
 
     bool allShipsDestroyed();
 };

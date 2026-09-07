@@ -6,6 +6,16 @@ Board::Board(int boardWidth, int boardHeight)
     height = boardHeight;
 }
 
+int Board::getWidth()
+{
+    return width;
+}
+
+int Board::getHeight()
+{
+    return height;
+}
+
 bool Board::placeShip(Ship ship)
 {
     ships.push_back(ship);
