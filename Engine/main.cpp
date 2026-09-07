@@ -1,46 +1,10 @@
-#include "Colors.h"
-#include "GameEngine.h"
-#include <SFML/Graphics.hpp>
+#include "../UI/window.h"
 
 int main()
 {
-    GameEngine engine;
+    Window window;
 
-    sf::RenderWindow window(
-        sf::VideoMode(800, 600),
-        "Battleship");
+    window.run();
 
-    sf::Font font;
-    font.loadFromFile("assets/DejaVuSans.ttf");
-
-    sf::Text text;
-    text.setFont(font);
-    text.setFillColor(Colors::Black);
-    text.setCharacterSize(30);
-    text.setPosition(50, 50);
-
-    if (engine.isRunning())
-    {
-        text.setString("BattleshipEngine running!");
-    }
-    else
-    {
-        text.setString("Fehler 404");
-    }
-
-    while (window.isOpen())
-    {
-        sf::Event event;
-        while (window.pollEvent(event))
-        {
-            if (event.type == sf::Event::Closed)
-            {
-                window.close();
-            }
-        }
-        window.clear(Colors::Menu);
-        window.draw(text);
-        window.display();
-    }
     return 0;
 }
