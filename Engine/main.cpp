@@ -1,3 +1,4 @@
+#include "Colors.h"
 #include "GameEngine.h"
 #include <SFML/Graphics.hpp>
 
@@ -14,6 +15,7 @@ int main()
 
     sf::Text text;
     text.setFont(font);
+    text.setFillColor(Colors::Black);
     text.setCharacterSize(30);
     text.setPosition(50, 50);
 
@@ -36,7 +38,7 @@ int main()
                 window.close();
             }
         }
-        window.clear(sf::Color::Blue);
+        window.clear(Colors::Menu);
         window.draw(text);
         window.display();
     }
