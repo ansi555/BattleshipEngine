@@ -1,15 +1,14 @@
 #include "BoardRenderer.h"
 
-#include "Assets/Colors.h"
+#include "../Assets/Colors.h"
 
 void BoardRenderer::render(
     sf::RenderWindow &window,
-    Board &board)
+    Board &board,
+    int startX,
+    int startY)
 {
-    int cellSize = 40;
-
-    int startX = 100;
-    int startY = 0;
+    int cellSize = 25;
 
     for (int row = 0; row < board.getHeight(); row++)
     {

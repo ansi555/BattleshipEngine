@@ -1,4 +1,4 @@
-#include "Assets/Colors.h"
+#include "../Assets/Colors.h"
 
 #include "MenuRenderer.h"
 
@@ -21,4 +21,13 @@ void MenuRenderer::render(sf::RenderWindow &window)
 {
     window.draw(title);
     window.draw(boardBtn);
+}
+
+bool MenuRenderer::isTestBoardClicked(sf::RenderWindow &window)
+{
+    sf::Vector2i mousePos = sf::Mouse::getPosition(window);
+
+    return boardBtn.getGlobalBounds().contains(
+        mousePos.x,
+        mousePos.y);
 }

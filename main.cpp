@@ -1,4 +1,4 @@
-#include "../UI/window.h"
+#include "UI/Window.h"
 
 int main()
 {

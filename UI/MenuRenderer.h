@@ -11,4 +11,6 @@ public:
     void init(sf::Font &font);
 
     void render(sf::RenderWindow &window);
+
+    bool isTestBoardClicked(sf::RenderWindow &window);
 };

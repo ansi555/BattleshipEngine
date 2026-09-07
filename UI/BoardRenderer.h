@@ -9,5 +9,7 @@ class BoardRenderer
 public:
     void render(
         sf::RenderWindow &window,
-        Board &board);
+        Board &board,
+        int startX,
+        int startY);
 };
