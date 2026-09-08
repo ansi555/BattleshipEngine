@@ -1,54 +1,34 @@
 #include "Window.h"
 
-Window::Window()
-{
-    window.create(sf::VideoMode(1200, 800), "BattleshipGame");
+Window::Window() {
+    window.create(sf::VideoMode(1600, 900), "BattleshipGame");
 
     state = MENU;
     font.loadFromFile("Assets/DejaVuSans.ttf");
 
     menuRenderer.init(font);
-
-    playerBoardLabel.setFont(font);
-    playerBoardLabel.setString("Eigenes Board");
-    playerBoardLabel.setCharacterSize(24);
-    playerBoardLabel.setFillColor(Colors::Black);
-    playerBoardLabel.setPosition(120, 50);
-
-    enemyBoardLabel.setFont(font);
-    enemyBoardLabel.setString("Gegner-Board");
-    enemyBoardLabel.setCharacterSize(24);
-    enemyBoardLabel.setFillColor(Colors::Black);
-    enemyBoardLabel.setPosition(520, 50);
+    boardRenderer.init(font);
 }
 
-void Window::run()
-{
-    while (window.isOpen())
-    {
+void Window::run() {
+    while (window.isOpen()) {
         handleEvents();
         update();
         render();
     }
 }
 
-void Window::handleEvents()
-{
+void Window::handleEvents() {
     sf::Event event;
 
-    while (window.pollEvent(event))
-    {
-        if (event.type == sf::Event::Closed)
-        {
+    while (window.pollEvent(event)) {
+        if (event.type == sf::Event::Closed) {
             window.close();
         }
 
-        if (event.type == sf::Event::MouseButtonPressed)
-        {
-            if (state == MENU)
-            {
-                if (menuRenderer.isTestBoardClicked(window))
-                {
+        if (event.type == sf::Event::MouseButtonPressed) {
+            if (state == MENU) {
+                if (menuRenderer.isTestBoardClicked(window)) {
                     state = BOARD;
                 }
             }
@@ -56,26 +36,18 @@ void Window::handleEvents()
     }
 }
 
-void Window::update()
-{
-}
+void Window::update() {}
 
-void Window::render()
-{
+void Window::render() {
     window.clear(Colors::Menu);
 
-    if (state == MENU)
-    {
+    if (state == MENU) {
         menuRenderer.render(window);
     }
 
-    if (state == BOARD)
-    {
-        window.draw(playerBoardLabel);
-        window.draw(enemyBoardLabel);
-
-        boardRenderer.render(window, playerBoard, 50, 100);
-        boardRenderer.render(window, enemyBoard, 450, 100);
+    if (state == BOARD) {
+        boardRenderer.render(window, player1Board, true);
+        boardRenderer.render(window, player2Board, false);
     }
 
     window.display();
