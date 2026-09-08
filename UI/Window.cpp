@@ -1,5 +1,7 @@
 #include "Window.h"
 
+#include <iostream>
+
 Window::Window() {
     window.create(sf::VideoMode(1600, 900), "BattleshipGame");
 
@@ -30,6 +32,13 @@ void Window::handleEvents() {
             if (state == MENU) {
                 if (menuRenderer.isTestBoardClicked(window)) {
                     state = BOARD;
+                }
+            }
+
+            if (state == BOARD) {
+                Coordinate clickedCell = boardRenderer.getClickedCell(window, player2Board, false);
+                if (clickedCell.x != -1) {
+                    std::cout << "Clicked: " << clickedCell.toString() << std::endl;
                 }
             }
         }

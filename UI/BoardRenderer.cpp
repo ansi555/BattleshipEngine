@@ -38,33 +38,46 @@ void BoardRenderer::init(sf::Font& font) {
     }
 }
 
-void BoardRenderer::render(sf::RenderWindow& window, Board& board, bool leftBoard) {
-    int cellSize = 25;
+BoardArea BoardRenderer::getBoardArea(sf::RenderWindow& window, Board& board, bool leftBoard) {
+    const int cellSize = 25;
+    const int gap = 100;
+    const int boardY = 200;
 
     int boardWidth = board.getWidth() * cellSize;
     int boardHeight = board.getHeight() * cellSize;
-    int gap = 100;
     int totalWidth = boardWidth * 2 + gap;
-
     int startX = (window.getSize().x - totalWidth) / 2;
-    int boardX;
-    int boardY = 200;
 
+    BoardArea area;
+
+    area.width = boardWidth;
+    area.height = boardHeight;
+    area.y = boardY;
+
+    if (leftBoard) {
+        area.x = startX;
+    } else {
+        area.x = startX + boardWidth + gap;
+    }
+
+    return area;
+}
+
+void BoardRenderer::render(sf::RenderWindow& window, Board& board, bool leftBoard) {
     //  ------------------------------
     //  Positioning Labels
     //  ------------------------------
+    BoardArea area = getBoardArea(window, board, leftBoard);
+
+    const int cellSize = 25;
 
     if (leftBoard) {
-        boardX = startX;
-
-        player1BoardLabel.setPosition(boardX + (boardWidth - player1BoardLabel.getGlobalBounds().width) / 2,
-                                      boardY - 95);
+        player1BoardLabel.setPosition(area.x + (area.width - player1BoardLabel.getGlobalBounds().width) / 2,
+                                      area.y - 95);
         window.draw(player1BoardLabel);
     } else {
-        boardX = startX + boardWidth + gap;
-
-        player2BoardLabel.setPosition(boardX + (boardWidth - player2BoardLabel.getGlobalBounds().width) / 2,
-                                      boardY - 95);
+        player2BoardLabel.setPosition(area.x + (area.width - player2BoardLabel.getGlobalBounds().width) / 2,
+                                      area.y - 95);
         window.draw(player2BoardLabel);
     }
 
@@ -74,7 +87,7 @@ void BoardRenderer::render(sf::RenderWindow& window, Board& board, bool leftBoar
 
     for (int col = 0; col < 15; col++) {
         columnLabels[col].setPosition(
-            boardX + col * cellSize + (cellSize - columnLabels[col].getGlobalBounds().width) / 2, boardY - 40);
+            area.x + col * cellSize + (cellSize - columnLabels[col].getGlobalBounds().width) / 2, area.y - 40);
 
         window.draw(columnLabels[col]);
     }
@@ -82,10 +95,10 @@ void BoardRenderer::render(sf::RenderWindow& window, Board& board, bool leftBoar
     for (int row = 0; row < 15; row++) {
         if (leftBoard) {
             rowLabels[row].setPosition(
-                boardX - rowLabels[row].getGlobalBounds().width - 30,
-                boardY + row * cellSize + (cellSize - rowLabels[row].getGlobalBounds().height) / 2);
+                area.x - rowLabels[row].getGlobalBounds().width - 30,
+                area.y + row * cellSize + (cellSize - rowLabels[row].getGlobalBounds().height) / 2);
         } else {
-            rowLabels[row].setPosition(boardX + boardWidth + 30, boardY + row * cellSize + 2);
+            rowLabels[row].setPosition(area.x + area.width + 30, area.y + row * cellSize + 2);
         }
 
         window.draw(rowLabels[row]);
@@ -97,9 +110,9 @@ void BoardRenderer::render(sf::RenderWindow& window, Board& board, bool leftBoar
 
     sf::RectangleShape border;
 
-    border.setPosition(boardX - 4, boardY - 4);
+    border.setPosition(area.x - 4, area.y - 4);
 
-    border.setSize(sf::Vector2f(boardWidth + 8, boardHeight + 8));
+    border.setSize(sf::Vector2f(area.width + 8, area.height + 8));
 
     border.setFillColor(sf::Color::Transparent);
 
@@ -119,7 +132,7 @@ void BoardRenderer::render(sf::RenderWindow& window, Board& board, bool leftBoar
 
             cell.setSize(sf::Vector2f(cellSize, cellSize));
 
-            cell.setPosition(boardX + col * cellSize, boardY + row * cellSize);
+            cell.setPosition(area.x + col * cellSize, area.y + row * cellSize);
 
             cell.setFillColor(Colors::CellGrey);
 
@@ -130,4 +143,17 @@ void BoardRenderer::render(sf::RenderWindow& window, Board& board, bool leftBoar
             window.draw(cell);
         }
     }
+}
+
+Coordinate BoardRenderer::getClickedCell(sf::RenderWindow& window, Board& board, bool leftBoard) {
+    const int cellSize = 25;
+    BoardArea area = getBoardArea(window, board, leftBoard);
+    sf::Vector2i mousePos = sf::Mouse::getPosition(window);
+    if (mousePos.x < area.x || mousePos.x >= area.x + area.width || mousePos.y < area.y ||
+        mousePos.y >= area.y + area.height) {
+        return Coordinate(-1, -1);
+    }
+    int col = (mousePos.x - area.x) / cellSize;
+    int row = (mousePos.y - area.y) / cellSize;
+    return Coordinate(col, row);
 }
