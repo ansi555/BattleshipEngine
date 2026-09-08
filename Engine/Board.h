@@ -2,6 +2,7 @@
 
 #include <vector>
 
+#include "Coordinate.h"
 #include "Ship.h"
 
 class Board {

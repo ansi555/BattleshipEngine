@@ -19,12 +19,12 @@ class BoardRenderer {
     sf::Text rowLabels[15];
     sf::Text columnLabels[15];
 
-    BoardArea getBoardArea(sf::RenderWindow& window, Board& board, bool leftBoard);
-
    public:
     void init(sf::Font& font);
 
     Coordinate getClickedCell(sf::RenderWindow& window, Board& board, bool leftBoard);
 
     void render(sf::RenderWindow& window, Board& board, bool leftBoard);
+
+    BoardArea getBoardArea(sf::RenderWindow& window, Board& board, bool leftBoard);
 };

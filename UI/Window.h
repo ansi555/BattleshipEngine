@@ -8,6 +8,7 @@
 #include "BoardRenderer.h"
 #include "GameState.h"
 #include "MenuRenderer.h"
+#include "ShipRenderer.h"
 
 class Window {
    private:
@@ -17,6 +18,7 @@ class Window {
     GameEngine engine;
     MenuRenderer menuRenderer;
     BoardRenderer boardRenderer;
+    ShipRenderer shipRenderer;
     GameState state;
     Board player1Board;
     Board player2Board;
