@@ -1,17 +1,20 @@
 #pragma once
 
-#include "Ship.h"
 #include <vector>
 
-class Board
-{
-private:
+#include "Ship.h"
+
+class Board {
+   private:
     int width;
     int height;
 
     std::vector<Ship> ships;
 
-public:
+    std::vector<Coordinate> hits;
+    std::vector<Coordinate> misses;
+
+   public:
     Board(int width = 15, int height = 15);
 
     int getWidth();
@@ -22,4 +25,8 @@ public:
     bool shoot(Coordinate coord);
 
     bool allShipsDestroyed();
+
+    const std::vector<Ship>& getShips() const;
+    const std::vector<Coordinate>& getHits() const;
+    const std::vector<Coordinate>& getMisses() const;
 };

@@ -10,6 +10,10 @@ Window::Window() {
 
     menuRenderer.init(font);
     boardRenderer.init(font);
+
+    Ship destroyer({{1, 1}, {1, 2}, {1, 3}});
+
+    player2Board.placeShip(destroyer);
 }
 
 void Window::run() {
@@ -42,7 +46,33 @@ void Window::handleEvents() {
                     std::cout << "Clicked: Left  | " << clickedCell1.toString() << std::endl;
                 }
                 if (clickedCell2.x != -1) {
-                    std::cout << "Clicked: Right | " << clickedCell2.toString() << std::endl;
+                    bool hit = player2Board.shoot(clickedCell2);
+
+                    Move move;
+
+                    move.coordinate = clickedCell2;
+                    move.hit = hit;
+
+                    engine.addMove(move);
+
+                    std::cout
+
+                        << clickedCell2.toString();
+
+                    if (hit)
+
+                    {
+                        std::cout << " HIT";
+
+                    }
+
+                    else
+
+                    {
+                        std::cout << " MISS";
+                    }
+
+                    std::cout << std::endl;
                 }
             }
         }

@@ -7,56 +7,50 @@ GameEngine::GameEngine()
       player2("Spieler 2")
 
 {
-
     player1Turn = true;
 
     running = true;
 }
-Player &GameEngine::currentPlayer()
-{
-    if (player1Turn)
-    {
+Player& GameEngine::currentPlayer() {
+    if (player1Turn) {
         return player1;
     }
     return player2;
 }
-Player &GameEngine::enemyPlayer()
-{
-    if (player1Turn)
-    {
+Player& GameEngine::enemyPlayer() {
+    if (player1Turn) {
         return player2;
     }
     return player1;
 }
-bool GameEngine::isRunning()
-{
+bool GameEngine::isRunning() {
     return true;
 }
-bool GameEngine::fire(int x, int y)
-{
+bool GameEngine::fire(int x, int y) {
     Coordinate coord(x, y);
-    bool hit =
-        enemyPlayer().getBoard().shoot(coord);
+    bool hit = enemyPlayer().getBoard().shoot(coord);
 
-    if (player1Turn)
-    {
+    if (player1Turn) {
         player1Turn = false;
-    }
-    else
-    {
+    } else {
         player1Turn = true;
     }
     return hit;
 }
-bool GameEngine::isGameOver()
-{
-    if (player1.getBoard().allShipsDestroyed())
-    {
+bool GameEngine::isGameOver() {
+    if (player1.getBoard().allShipsDestroyed()) {
         return true;
     }
-    if (player2.getBoard().allShipsDestroyed())
-    {
+    if (player2.getBoard().allShipsDestroyed()) {
         return true;
     }
     return false;
+}
+
+void GameEngine::addMove(Move move) {
+    moveHistory.push_back(move);
+}
+
+const std::vector<Move>& GameEngine::getMoveHistory() {
+    return moveHistory;
 }
