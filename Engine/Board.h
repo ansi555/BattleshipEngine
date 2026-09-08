@@ -27,6 +27,8 @@ class Board {
 
     bool allShipsDestroyed();
 
+    void markSurroundingCells(const Ship& ship);
+
     const std::vector<Ship>& getShips() const;
     const std::vector<Coordinate>& getHits() const;
     const std::vector<Coordinate>& getMisses() const;

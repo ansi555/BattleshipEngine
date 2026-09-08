@@ -1,5 +1,7 @@
 #include "Board.h"
 
+#include <iostream>
+
 Board::Board(int boardWidth, int boardHeight) {
     width = boardWidth;
     height = boardHeight;
@@ -22,6 +24,13 @@ bool Board::shoot(Coordinate coord) {
     for (int i = 0; i < ships.size(); i++) {
         if (ships[i].hit(coord)) {
             hits.push_back(coord);
+
+            if (ships[i].isSunk()) {
+                markSurroundingCells(ships[i]);
+
+                std::cout << "Schiff versenkt!" << std::endl;
+            }
+
             return true;
         }
     }
