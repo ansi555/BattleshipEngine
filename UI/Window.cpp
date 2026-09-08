@@ -36,9 +36,13 @@ void Window::handleEvents() {
             }
 
             if (state == BOARD) {
-                Coordinate clickedCell = boardRenderer.getClickedCell(window, player2Board, false);
-                if (clickedCell.x != -1) {
-                    std::cout << "Clicked: " << clickedCell.toString() << std::endl;
+                Coordinate clickedCell1 = boardRenderer.getClickedCell(window, player1Board, true);
+                Coordinate clickedCell2 = boardRenderer.getClickedCell(window, player2Board, false);
+                if (clickedCell1.x != -1) {
+                    std::cout << "Clicked: Left  | " << clickedCell1.toString() << std::endl;
+                }
+                if (clickedCell2.x != -1) {
+                    std::cout << "Clicked: Right | " << clickedCell2.toString() << std::endl;
                 }
             }
         }
