@@ -9,6 +9,9 @@ class BoardRenderer {
     sf::Text player1BoardLabel;
     sf::Text player2BoardLabel;
 
+    sf::Text rowLabels[15];
+    sf::Text columnLabels[15];
+
    public:
     void init(sf::Font& font);
 

@@ -12,6 +12,22 @@ void BoardRenderer::init(sf::Font& font) {
     player2BoardLabel.setString("Gegner-Board");
     player2BoardLabel.setCharacterSize(24);
     player2BoardLabel.setFillColor(Colors::Black);
+
+    for (int i = 0; i < 15; i++) {
+        columnLabels[i].setFont(font);
+        columnLabels[i].setString(std::string(1, 'A' + i));
+        columnLabels[i].setCharacterSize(10);
+        columnLabels[i].setFillColor(Colors::DarkGreen);
+
+        rowLabels[i].setFont(font);
+        std::string number = std::to_string(i + 1);
+        if (i < 9) {
+            number = "0" + number;
+        }
+        rowLabels[i].setString(number);
+        rowLabels[i].setCharacterSize(10);
+        rowLabels[i].setFillColor(Colors::DarkGreen);
+    }
 }
 
 void BoardRenderer::render(sf::RenderWindow& window, Board& board, bool leftBoard) {
@@ -30,14 +46,33 @@ void BoardRenderer::render(sf::RenderWindow& window, Board& board, bool leftBoar
         boardX = startX;
 
         player1BoardLabel.setPosition(boardX + (boardWidth - player1BoardLabel.getGlobalBounds().width) / 2,
-                                      boardY - 50);
+                                      boardY - 95);
         window.draw(player1BoardLabel);
     } else {
         boardX = startX + boardWidth + gap;
 
         player2BoardLabel.setPosition(boardX + (boardWidth - player2BoardLabel.getGlobalBounds().width) / 2,
-                                      boardY - 50);
+                                      boardY - 95);
         window.draw(player2BoardLabel);
+    }
+
+    for (int col = 0; col < 15; col++) {
+        columnLabels[col].setPosition(
+            boardX + col * cellSize + (cellSize - columnLabels[col].getGlobalBounds().width) / 2, boardY - 40);
+
+        window.draw(columnLabels[col]);
+    }
+
+    for (int row = 0; row < 15; row++) {
+        if (leftBoard) {
+            rowLabels[row].setPosition(
+                boardX - rowLabels[row].getGlobalBounds().width - 30,
+                boardY + row * cellSize + (cellSize - rowLabels[row].getGlobalBounds().height) / 2);
+        } else {
+            rowLabels[row].setPosition(boardX + boardWidth + 30, boardY + row * cellSize + 2);
+        }
+
+        window.draw(rowLabels[row]);
     }
 
     sf::RectangleShape border;
