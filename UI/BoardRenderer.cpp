@@ -3,6 +3,10 @@
 #include "../Assets/Colors.h"
 
 void BoardRenderer::init(sf::Font& font) {
+    //  ------------------------------
+    //  Setting up Labels
+    //  -----------------------------
+
     player1BoardLabel.setFont(font);
     player1BoardLabel.setString("Eigenes Board");
     player1BoardLabel.setCharacterSize(24);
@@ -12,6 +16,10 @@ void BoardRenderer::init(sf::Font& font) {
     player2BoardLabel.setString("Gegner-Board");
     player2BoardLabel.setCharacterSize(24);
     player2BoardLabel.setFillColor(Colors::Black);
+
+    //  ------------------------------
+    //  Setting up Labels for coordinates
+    //  ------------------------------
 
     for (int i = 0; i < 15; i++) {
         columnLabels[i].setFont(font);
@@ -42,6 +50,10 @@ void BoardRenderer::render(sf::RenderWindow& window, Board& board, bool leftBoar
     int boardX;
     int boardY = 200;
 
+    //  ------------------------------
+    //  Positioning Labels
+    //  ------------------------------
+
     if (leftBoard) {
         boardX = startX;
 
@@ -55,6 +67,10 @@ void BoardRenderer::render(sf::RenderWindow& window, Board& board, bool leftBoar
                                       boardY - 95);
         window.draw(player2BoardLabel);
     }
+
+    //  ------------------------------
+    //  Positioning labels for coordinates
+    //  ------------------------------
 
     for (int col = 0; col < 15; col++) {
         columnLabels[col].setPosition(
@@ -75,6 +91,10 @@ void BoardRenderer::render(sf::RenderWindow& window, Board& board, bool leftBoar
         window.draw(rowLabels[row]);
     }
 
+    //  ------------------------------
+    //  Setting up border
+    //  ------------------------------
+
     sf::RectangleShape border;
 
     border.setPosition(boardX - 4, boardY - 4);
@@ -88,6 +108,11 @@ void BoardRenderer::render(sf::RenderWindow& window, Board& board, bool leftBoar
     border.setOutlineThickness(3);
 
     window.draw(border);
+
+    //  ------------------------------
+    //  Positioning and generated cells
+    //  ------------------------------
+
     for (int row = 0; row < board.getHeight(); row++) {
         for (int col = 0; col < board.getWidth(); col++) {
             sf::RectangleShape cell;
