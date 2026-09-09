@@ -2,6 +2,14 @@
 
 #include "../Assets/Colors.h"
 
+void ShipRenderer::init(sf::Font& font) {
+    Ship destroyer({{1, 1}, {1, 2}, {1, 3}});
+    Ship anglerboot({{5, 6}, {6, 6}});
+
+    player1Board.placeShip(anglerboot);
+    player2Board.placeShip(destroyer);
+}
+
 void ShipRenderer::render(sf::RenderWindow& window, Board& board, BoardArea area, bool leftBoard) {
     const int cellSize = 25;
 

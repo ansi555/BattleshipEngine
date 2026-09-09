@@ -2,20 +2,38 @@
 
 #include <iostream>
 
+void Window::initGame() {
+    player1Board = Board(15, 15);
+    player2Board = Board(15, 15);
+
+    Ship destroyer({{1, 1}, {1, 2}, {1, 3}});
+
+    Ship anglerboot({{5, 6}, {6, 6}});
+
+    player1Board.placeShip(destroyer);
+    player1Board.placeShip(anglerboot);
+
+    player2Board.placeShip(destroyer);
+    player2Board.placeShip(anglerboot);
+}
+
 Window::Window() {
     window.create(sf::VideoMode(1600, 900), "BattleshipGame");
 
     state = MENU;
-    font.loadFromFile("Assets/DejaVuSans.ttf");
+    font.loadFromFile("Assets/Roboto-Regular.ttf");
 
     menuRenderer.init(font);
     boardRenderer.init(font);
+    //  shipRenderer.init(font); (Wird erst sinnvoll bei Texturen o.ä.)
 
-    Ship destroyer({{1, 1}, {1, 2}, {1, 3}});
-    Ship anglerboot({{5, 6}, {6, 6}});
+    initGame();
+}
 
-    player1Board.placeShip(anglerboot);
-    player2Board.placeShip(destroyer);
+void Window::resetGame() {
+    engine = GameEngine();
+
+    initGame();
 }
 
 void Window::run() {
@@ -75,6 +93,11 @@ void Window::handleEvents() {
                     }
 
                     std::cout << std::endl;
+                }
+
+                if (boardRenderer.isBackBtnClicked(window)) {
+                    resetGame();
+                    state = MENU;
                 }
             }
         }

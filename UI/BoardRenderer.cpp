@@ -36,6 +36,18 @@ void BoardRenderer::init(sf::Font& font) {
         rowLabels[i].setCharacterSize(10);
         rowLabels[i].setFillColor(Colors::DarkGreen);
     }
+
+    backBtn.setSize(sf::Vector2f(43, 30));
+    backBtn.setPosition(50, 50);
+    backBtn.setFillColor(Colors::SuccessGreen);
+    backBtn.setOutlineColor(Colors::DarkGreen);
+    backBtn.setOutlineThickness(1);
+
+    backBtnLabel.setFont(font);
+    backBtnLabel.setString("Back");
+    backBtnLabel.setCharacterSize(15);
+    backBtnLabel.setFillColor(Colors::Black);
+    backBtnLabel.setPosition(55, 55);
 }
 
 BoardArea BoardRenderer::getBoardArea(sf::RenderWindow& window, Board& board, bool leftBoard) {
@@ -68,6 +80,9 @@ void BoardRenderer::render(sf::RenderWindow& window, Board& board, bool leftBoar
     //  Positioning Labels
     //  ------------------------------
     BoardArea area = getBoardArea(window, board, leftBoard);
+
+    window.draw(backBtn);
+    window.draw(backBtnLabel);
 
     const int cellSize = 25;
 
@@ -138,4 +153,10 @@ Coordinate BoardRenderer::getClickedCell(sf::RenderWindow& window, Board& board,
     int col = (mousePos.x - area.x) / cellSize;
     int row = (mousePos.y - area.y) / cellSize;
     return Coordinate(col, row);
+}
+
+bool BoardRenderer::isBackBtnClicked(sf::RenderWindow& window) {
+    sf::Vector2i mousePos = sf::Mouse::getPosition(window);
+
+    return backBtn.getGlobalBounds().contains(mousePos.x, mousePos.y);
 }

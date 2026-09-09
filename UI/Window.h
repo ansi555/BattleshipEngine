@@ -20,6 +20,7 @@ class Window {
     BoardRenderer boardRenderer;
     ShipRenderer shipRenderer;
     GameState state;
+
     Board player1Board;
     Board player2Board;
 
@@ -27,6 +28,8 @@ class Window {
     Window();
 
     void run();
+    void resetGame();
+    void initGame();
 
    private:
     void handleEvents();

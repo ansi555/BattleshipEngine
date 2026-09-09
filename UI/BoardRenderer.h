@@ -19,6 +19,9 @@ class BoardRenderer {
     sf::Text rowLabels[15];
     sf::Text columnLabels[15];
 
+    sf::RectangleShape backBtn;
+    sf::Text backBtnLabel;
+
    public:
     void init(sf::Font& font);
 
@@ -27,4 +30,6 @@ class BoardRenderer {
     void render(sf::RenderWindow& window, Board& board, bool leftBoard);
 
     BoardArea getBoardArea(sf::RenderWindow& window, Board& board, bool leftBoard);
+
+    bool isBackBtnClicked(sf::RenderWindow& window);
 };
