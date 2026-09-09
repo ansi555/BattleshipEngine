@@ -52,7 +52,7 @@ void BoardRenderer::init(sf::Font& font) {
 
 BoardArea BoardRenderer::getBoardArea(sf::RenderWindow& window, Board& board, bool leftBoard) {
     const int cellSize = 25;
-    const int gap = 100;
+    const int gap = 200;
     const int boardY = 200;
 
     int boardWidth = board.getWidth() * cellSize;

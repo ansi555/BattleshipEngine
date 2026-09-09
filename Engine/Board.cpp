@@ -20,6 +20,23 @@ bool Board::placeShip(Ship ship) {
     return true;
 }
 
+const std::vector<Coordinate>& Board::getSelectedPlacementCells() const {
+    return selectedPlacementCells;
+}
+
+void Board::togglePlacementCell(Coordinate coord) {
+    for (int i = 0; i < selectedPlacementCells.size(); i++) {
+        if (selectedPlacementCells[i].x == coord.x && selectedPlacementCells[i].y == coord.y) {
+            // std::cout << "Removed: " << coord.toString() << std::endl;
+            selectedPlacementCells.erase(selectedPlacementCells.begin() + i);
+            return;
+        }
+    }
+    // std::cout << "Added: " << coord.toString() << std::endl;
+
+    selectedPlacementCells.push_back(coord);
+}
+
 void Board::markSurroundingCells(const Ship& ship) {
     for (const Coordinate& position : ship.getPositions()) {
         for (int dy = -1; dy <= 1; dy++) {

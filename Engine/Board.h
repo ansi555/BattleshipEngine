@@ -10,6 +10,8 @@ class Board {
     int width;
     int height;
 
+    std::vector<Coordinate> selectedPlacementCells;
+
     std::vector<Ship> ships;
 
     std::vector<Coordinate> hits;
@@ -17,6 +19,9 @@ class Board {
 
    public:
     Board(int width = 10, int height = 10);
+
+    void togglePlacementCell(Coordinate coord);
+    const std::vector<Coordinate>& getSelectedPlacementCells() const;
 
     int getWidth();
     int getHeight();

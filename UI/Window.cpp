@@ -5,16 +5,6 @@
 void Window::initGame() {
     player1Board = Board(10, 10);
     player2Board = Board(10, 10);
-
-    Ship destroyer({{1, 1}, {1, 2}, {1, 3}});
-
-    Ship anglerboot({{5, 6}, {6, 6}});
-
-    player1Board.placeShip(destroyer);
-    player1Board.placeShip(anglerboot);
-
-    player2Board.placeShip(destroyer);
-    player2Board.placeShip(anglerboot);
 }
 
 Window::Window() {
@@ -25,7 +15,7 @@ Window::Window() {
 
     menuRenderer.init(font);
     boardRenderer.init(font);
-    //  shipRenderer.init(font); (Wird erst sinnvoll bei Texturen o.ä.)
+    // shipRenderer.init(font);
 
     initGame();
 }
@@ -55,11 +45,21 @@ void Window::handleEvents() {
         if (event.type == sf::Event::MouseButtonPressed) {
             if (state == MENU) {
                 if (menuRenderer.isTestBoardClicked(window)) {
-                    state = BOARD;
+                    initGame();
+                    state = PLACE_SHIPS_P1;
+                    return;
                 }
-            }
-
-            if (state == BOARD) {
+            } else if (state == PLACE_SHIPS_P1) {
+                Coordinate clickedCell = boardRenderer.getClickedCell(window, player1Board, true);
+                if (clickedCell.x != -1) {
+                    // std::cout << "Toggle: " << clickedCell.toString() << std::endl;
+                    player1Board.togglePlacementCell(clickedCell);
+                }
+                if (boardRenderer.isBackBtnClicked(window)) {
+                    resetGame();
+                    state = MENU;
+                }
+            } else if (state == BOARD) {
                 Coordinate clickedCell1 = boardRenderer.getClickedCell(window, player1Board, true);
                 Coordinate clickedCell2 = boardRenderer.getClickedCell(window, player2Board, false);
                 if (clickedCell1.x != -1) {
@@ -113,13 +113,22 @@ void Window::render() {
         menuRenderer.render(window);
     }
 
-    if (state == BOARD) {
+    if (state == PLACE_SHIPS_P1) {
         BoardArea playerArea = boardRenderer.getBoardArea(window, player1Board, true);
         BoardArea enemyArea = boardRenderer.getBoardArea(window, player2Board, false);
         boardRenderer.render(window, player1Board, true);
         boardRenderer.render(window, player2Board, false);
         shipRenderer.render(window, player1Board, playerArea, true);
         shipRenderer.render(window, player2Board, enemyArea, false);
+    }
+
+    if (state == BOARD) {
+        /* BoardArea playerArea = boardRenderer.getBoardArea(window, player1Board, true);
+        BoardArea enemyArea = boardRenderer.getBoardArea(window, player2Board, false);
+        boardRenderer.render(window, player1Board, true);
+        boardRenderer.render(window, player2Board, false);
+        shipRenderer.render(window, player1Board, playerArea, true);
+        shipRenderer.render(window, player2Board, enemyArea, false); */
     }
 
     window.display();
