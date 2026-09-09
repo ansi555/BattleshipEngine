@@ -16,22 +16,21 @@ void ShipRenderer::render(sf::RenderWindow& window, Board& board, BoardArea area
 
             bool containsShip = false;
 
+            bool belongsToSunkShip = false;
+
             for (const Ship& ship : board.getShips()) {
                 for (const Coordinate& position : ship.getPositions()) {
                     if (position.x == col && position.y == row) {
                         containsShip = true;
+                        if (ship.isSunk()) {
+                            belongsToSunkShip = true;
+                        }
                         break;
                     }
                 }
                 if (containsShip) {
                     break;
                 }
-            }
-
-            if (containsShip) {
-                cell.setFillColor(Colors::Purpur);
-            } else {
-                cell.setFillColor(Colors::CellGrey);
             }
 
             bool isHit = false;
@@ -43,14 +42,6 @@ void ShipRenderer::render(sf::RenderWindow& window, Board& board, BoardArea area
                 }
             }
 
-            if (isHit) {
-                cell.setFillColor(Colors::SuccessGreen);
-            } else if (containsShip && leftBoard) {
-                cell.setFillColor(Colors::ErrorRed);
-            } else {
-                cell.setFillColor(Colors::CellGrey);
-            }
-
             bool isMiss = false;
 
             for (const Coordinate& miss : board.getMisses()) {
@@ -60,7 +51,9 @@ void ShipRenderer::render(sf::RenderWindow& window, Board& board, BoardArea area
                 }
             }
 
-            if (isHit) {
+            if (belongsToSunkShip) {
+                cell.setFillColor(Colors::Purpur);
+            } else if (isHit) {
                 cell.setFillColor(Colors::SuccessGreen);
             } else if (isMiss) {
                 cell.setFillColor(Colors::WaterBlue);

@@ -13,7 +13,7 @@ class Ship {
     Ship(std::vector<Coordinate> coords);
 
     bool hit(Coordinate coord);
-    bool isSunk();
+    bool isSunk() const;
 
     const std::vector<Coordinate>& getPositions() const;
 };

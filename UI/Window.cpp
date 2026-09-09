@@ -12,7 +12,9 @@ Window::Window() {
     boardRenderer.init(font);
 
     Ship destroyer({{1, 1}, {1, 2}, {1, 3}});
+    Ship anglerboot({{5, 6}, {6, 6}});
 
+    player1Board.placeShip(anglerboot);
     player2Board.placeShip(destroyer);
 }
 

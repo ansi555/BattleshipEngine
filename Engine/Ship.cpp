@@ -19,7 +19,7 @@ bool Ship::hit(const Coordinate coord) {
     return false;
 }
 
-bool Ship::isSunk() {
+bool Ship::isSunk() const {
     for (bool hit : shipHits) {
         if (!hit) {
             return false;
