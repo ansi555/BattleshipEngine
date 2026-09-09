@@ -21,7 +21,7 @@ void BoardRenderer::init(sf::Font& font) {
     //  Setting up Labels for coordinates
     //  ------------------------------
 
-    for (int i = 0; i < 15; i++) {
+    for (int i = 0; i < 10; i++) {
         columnLabels[i].setFont(font);
         columnLabels[i].setString(std::string(1, 'A' + i));
         columnLabels[i].setCharacterSize(10);
@@ -100,14 +100,14 @@ void BoardRenderer::render(sf::RenderWindow& window, Board& board, bool leftBoar
     //  Positioning labels for coordinates
     //  ------------------------------
 
-    for (int col = 0; col < 15; col++) {
+    for (int col = 0; col < board.getWidth(); col++) {
         columnLabels[col].setPosition(
             area.x + col * cellSize + (cellSize - columnLabels[col].getGlobalBounds().width) / 2, area.y - 40);
 
         window.draw(columnLabels[col]);
     }
 
-    for (int row = 0; row < 15; row++) {
+    for (int row = 0; row < board.getHeight(); row++) {
         if (leftBoard) {
             rowLabels[row].setPosition(
                 area.x - rowLabels[row].getGlobalBounds().width - 30,

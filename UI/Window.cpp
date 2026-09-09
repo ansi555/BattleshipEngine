@@ -3,8 +3,8 @@
 #include <iostream>
 
 void Window::initGame() {
-    player1Board = Board(15, 15);
-    player2Board = Board(15, 15);
+    player1Board = Board(10, 10);
+    player2Board = Board(10, 10);
 
     Ship destroyer({{1, 1}, {1, 2}, {1, 3}});
 

@@ -16,7 +16,7 @@ class Board {
     std::vector<Coordinate> misses;
 
    public:
-    Board(int width = 15, int height = 15);
+    Board(int width = 10, int height = 10);
 
     int getWidth();
     int getHeight();
