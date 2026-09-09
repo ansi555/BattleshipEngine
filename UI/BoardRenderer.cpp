@@ -51,7 +51,7 @@ void BoardRenderer::init(sf::Font& font) {
 }
 
 BoardArea BoardRenderer::getBoardArea(sf::RenderWindow& window, Board& board, bool leftBoard) {
-    const int cellSize = 25;
+    const int cellSize = 35;
     const int gap = 200;
     const int boardY = 200;
 
@@ -84,7 +84,7 @@ void BoardRenderer::render(sf::RenderWindow& window, Board& board, bool leftBoar
     window.draw(backBtn);
     window.draw(backBtnLabel);
 
-    const int cellSize = 25;
+    const int cellSize = 35;
 
     if (leftBoard) {
         player1BoardLabel.setPosition(area.x + (area.width - player1BoardLabel.getGlobalBounds().width) / 2,
@@ -143,7 +143,7 @@ void BoardRenderer::render(sf::RenderWindow& window, Board& board, bool leftBoar
 }
 
 Coordinate BoardRenderer::getClickedCell(sf::RenderWindow& window, Board& board, bool leftBoard) {
-    const int cellSize = 25;
+    const int cellSize = 35;
     BoardArea area = getBoardArea(window, board, leftBoard);
     sf::Vector2i mousePos = sf::Mouse::getPosition(window);
     if (mousePos.x < area.x || mousePos.x >= area.x + area.width || mousePos.y < area.y ||

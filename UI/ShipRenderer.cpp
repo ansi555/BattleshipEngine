@@ -13,7 +13,7 @@ void ShipRenderer::init(sf::Font& font) {
 }
 
 void ShipRenderer::render(sf::RenderWindow& window, Board& board, BoardArea area, bool leftBoard) {
-    const int cellSize = 25;
+    const int cellSize = 35;
 
     for (int row = 0; row < board.getHeight(); row++) {
         for (int col = 0; col < board.getWidth(); col++) {
