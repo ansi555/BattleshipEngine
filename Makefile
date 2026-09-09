@@ -1,6 +1,6 @@
 CXX = g++
 
-CXXFLAGS = -Wall -Wextra -std=c++20 -Iassets
+CXXFLAGS = -Wall -Wextra -std=c++20 -Iassets -finput-charset=UTF-8 -fexec-charset=UTF-8
 
 LIBS = -lsfml-graphics -lsfml-window -lsfml-system
 
