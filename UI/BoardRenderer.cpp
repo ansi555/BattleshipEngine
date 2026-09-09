@@ -8,13 +8,13 @@ void BoardRenderer::init(sf::Font& font) {
     //  -----------------------------
 
     player1BoardLabel.setFont(font);
-    player1BoardLabel.setString("Eigenes Board");
-    player1BoardLabel.setCharacterSize(24);
+    player1BoardLabel.setString("Player 1");
+    player1BoardLabel.setCharacterSize(18);
     player1BoardLabel.setFillColor(Colors::Black);
 
     player2BoardLabel.setFont(font);
-    player2BoardLabel.setString("Gegner-Board");
-    player2BoardLabel.setCharacterSize(24);
+    player2BoardLabel.setString("Player 2");
+    player2BoardLabel.setCharacterSize(18);
     player2BoardLabel.setFillColor(Colors::Black);
 
     //  ------------------------------
@@ -36,6 +36,12 @@ void BoardRenderer::init(sf::Font& font) {
         rowLabels[i].setCharacterSize(10);
         rowLabels[i].setFillColor(Colors::DarkGreen);
     }
+
+    fleetInfoLabel.setFont(font);
+    fleetInfoLabel.setCharacterSize(20);
+
+    readyLabel.setFont(font);
+    readyLabel.setCharacterSize(24);
 
     backBtn.setSize(sf::Vector2f(43, 30));
     backBtn.setPosition(50, 50);
@@ -75,7 +81,7 @@ BoardArea BoardRenderer::getBoardArea(sf::RenderWindow& window, Board& board, bo
     return area;
 }
 
-void BoardRenderer::render(sf::RenderWindow& window, Board& board, bool leftBoard) {
+void BoardRenderer::render(sf::RenderWindow& window, Board& board, bool leftBoard, bool showPlacementInfo) {
     //  ------------------------------
     //  Positioning Labels
     //  ------------------------------
@@ -126,16 +132,39 @@ void BoardRenderer::render(sf::RenderWindow& window, Board& board, bool leftBoar
     sf::RectangleShape border;
 
     border.setPosition(area.x - 4, area.y - 4);
-
     border.setSize(sf::Vector2f(area.width + 8, area.height + 8));
-
     border.setFillColor(sf::Color::Transparent);
-
     border.setOutlineColor(Colors::DarkGreen);
-
     border.setOutlineThickness(3);
-
     window.draw(border);
+
+    std::string fleetInfo = "4er: " + std::to_string(board.countPlacedShipsByLength(4)) +
+                            " / 1\n"
+                            "3er: " +
+                            std::to_string(board.countPlacedShipsByLength(3)) +
+                            " / 2\n"
+                            "2er: " +
+                            std::to_string(board.countPlacedShipsByLength(2)) + " / 3\n";
+
+    float centerX = area.x + area.width / 2.0f;
+
+    fleetInfoLabel.setString(fleetInfo);
+    fleetInfoLabel.setFillColor(Colors::Black);
+    fleetInfoLabel.setPosition(centerX - fleetInfoLabel.getGlobalBounds().width / 2.0f, area.y + area.height + 30);
+
+    if (board.isPlacementReady()) {
+        readyLabel.setString("READY");
+        readyLabel.setFillColor(Colors::SuccessGreen);
+    } else {
+        readyLabel.setString("NOT READY");
+        readyLabel.setFillColor(Colors::ErrorRed);
+    }
+    readyLabel.setPosition(centerX - readyLabel.getGlobalBounds().width / 2.0f, area.y + area.height + 120);
+
+    if (showPlacementInfo) {
+        window.draw(fleetInfoLabel);
+        window.draw(readyLabel);
+    }
 
     //  ------------------------------
     //  Positioning and generated cells

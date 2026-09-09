@@ -116,8 +116,8 @@ void Window::render() {
     if (state == PLACE_SHIPS_P1) {
         BoardArea playerArea = boardRenderer.getBoardArea(window, player1Board, true);
         BoardArea enemyArea = boardRenderer.getBoardArea(window, player2Board, false);
-        boardRenderer.render(window, player1Board, true);
-        boardRenderer.render(window, player2Board, false);
+        boardRenderer.render(window, player1Board, true, true);
+        boardRenderer.render(window, player2Board, false, false);
         shipRenderer.render(window, player1Board, playerArea, true);
         shipRenderer.render(window, player2Board, enemyArea, false);
     }

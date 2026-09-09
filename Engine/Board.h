@@ -23,6 +23,9 @@ class Board {
     void togglePlacementCell(Coordinate coord);
     const std::vector<Coordinate>& getSelectedPlacementCells() const;
 
+    int countPlacedShipsByLength(int length) const;
+    bool isPlacementReady() const;
+
     int getWidth();
     int getHeight();
 
