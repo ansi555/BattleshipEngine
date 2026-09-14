@@ -149,3 +149,5 @@ ipch/
 *.e2e
 
 /Battleship
+/Makefile
+Assets/.DS_Store
