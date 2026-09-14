@@ -149,6 +149,36 @@ bool Board::shipsAreSeparated(
     return true;
 }
 
+bool Board::isStraightShip(
+    const std::vector<Coordinate>& ship) const
+{
+    if (ship.empty())
+    {
+        return false;
+    }
+
+    bool sameX = true;
+    bool sameY = true;
+
+    int firstX = ship[0].x;
+    int firstY = ship[0].y;
+
+    for (const Coordinate& cell : ship)
+    {
+        if (cell.x != firstX)
+        {
+            sameX = false;
+        }
+
+        if (cell.y != firstY)
+        {
+            sameY = false;
+        }
+    }
+
+    return sameX || sameY;
+}
+
 bool Board::isPlacementReady() const
 {
     auto ships =
