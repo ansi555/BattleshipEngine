@@ -1,5 +1,7 @@
 #include "ShipRenderer.h"
 
+#include <iostream>
+
 #include "../Assets/Colors.h"
 
 void ShipRenderer::init(sf::Font& font) {
@@ -11,7 +13,7 @@ void ShipRenderer::init(sf::Font& font) {
 }
 
 void ShipRenderer::render(sf::RenderWindow& window, Board& board, BoardArea area, bool leftBoard) {
-    const int cellSize = 25;
+    const int cellSize = 35;
 
     for (int row = 0; row < board.getHeight(); row++) {
         for (int col = 0; col < board.getWidth(); col++) {
@@ -23,8 +25,15 @@ void ShipRenderer::render(sf::RenderWindow& window, Board& board, BoardArea area
             cell.setOutlineThickness(1);
 
             bool containsShip = false;
-
+            bool isPlacementCell = false;
             bool belongsToSunkShip = false;
+
+            for (const Coordinate& placementCell : board.getSelectedPlacementCells()) {
+                if (placementCell.x == col && placementCell.y == row) {
+                    isPlacementCell = true;
+                    break;
+                }
+            }
 
             for (const Ship& ship : board.getShips()) {
                 for (const Coordinate& position : ship.getPositions()) {
@@ -59,7 +68,10 @@ void ShipRenderer::render(sf::RenderWindow& window, Board& board, BoardArea area
                 }
             }
 
-            if (belongsToSunkShip) {
+            if (isPlacementCell) {
+                cell.setFillColor(Colors::Purpur);
+                // std::cout << "Placement Cell!" << std::endl;
+            } else if (belongsToSunkShip) {
                 cell.setFillColor(Colors::Purpur);
             } else if (isHit) {
                 cell.setFillColor(Colors::SuccessGreen);
