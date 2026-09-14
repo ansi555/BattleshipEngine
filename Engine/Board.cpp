@@ -20,108 +20,6 @@ bool Board::placeShip(Ship ship) {
     return true;
 }
 
-const std::vector<Coordinate>& Board::getSelectedPlacementCells() const {
-    return selectedPlacementCells;
-}
-
-void Board::togglePlacementCell(Coordinate coord) {
-    for (int i = 0; i < selectedPlacementCells.size(); i++) {
-        if (selectedPlacementCells[i].x == coord.x && selectedPlacementCells[i].y == coord.y) {
-            // std::cout << "Removed: " << coord.toString() << std::endl;
-            selectedPlacementCells.erase(selectedPlacementCells.begin() + i);
-            return;
-        }
-    }
-    // std::cout << "Added: " << coord.toString() << std::endl;
-
-    selectedPlacementCells.push_back(coord);
-}
-
-bool areNeighbours(const Coordinate& a, const Coordinate& b) {
-    int dx = std::abs(a.x - b.x);
-    int dy = std::abs(a.y - b.y);
-
-    return dx <= 1 && dy <= 1;
-}
-
-void collectShip(const Coordinate& cell, const std::vector<Coordinate>& cells, std::vector<Coordinate>& ship,
-                 std::vector<bool>& visited, int index) {
-    visited[index] = true;
-    ship.push_back(cells[index]);
-    for (int i = 0; i < cells.size(); i++) {
-        if (visited[i]) {
-            continue;
-        }
-        int dx = std::abs(cells[index].x - cells[i].x);
-        int dy = std::abs(cells[index].y - cells[i].y);
-        bool connected = (dx == 1 && dy == 0) || (dx == 0 && dy == 1);
-        if (connected) {
-            collectShip(cells[i], cells, ship, visited, i);
-        }
-    }
-}
-
-bool Board::isPlacementReady() const {
-    if (selectedPlacementCells.size() != 16) {
-        return false;
-    }
-    for (int i = 0; i < selectedPlacementCells.size(); i++) {
-        for (int j = i + 1; j < selectedPlacementCells.size(); j++) {
-            int dx = std::abs(selectedPlacementCells[i].x - selectedPlacementCells[j].x);
-            int dy = std::abs(selectedPlacementCells[i].y - selectedPlacementCells[j].y);
-            bool orthogonal = (dx == 1 && dy == 0) || (dx == 0 && dy == 1);
-            bool diagonal = (dx == 1 && dy == 1);
-            if (diagonal) {
-                return false;
-            }
-        }
-    }
-    std::vector<bool> visited(selectedPlacementCells.size(), false);
-    int count4 = 0;
-    int count3 = 0;
-    int count2 = 0;
-    for (int i = 0; i < selectedPlacementCells.size(); i++) {
-        if (visited[i]) {
-            continue;
-        }
-        std::vector<Coordinate> ship;
-        collectShip(selectedPlacementCells[i], selectedPlacementCells, ship, visited, i);
-        int length = ship.size();
-        if (length == 4) {
-            count4++;
-        } else if (length == 3) {
-            count3++;
-        } else if (length == 2) {
-            count2++;
-        } else {
-            return false;
-        }
-    }
-    return count4 == 1 && count3 == 2 && count2 == 3;
-}
-
-int Board::countPlacedShipsByLength(int length) const {
-    std::vector<bool> visited(selectedPlacementCells.size(), false);
-
-    int count = 0;
-
-    for (int i = 0; i < selectedPlacementCells.size(); i++) {
-        if (visited[i]) {
-            continue;
-        }
-
-        std::vector<Coordinate> ship;
-
-        collectShip(selectedPlacementCells[i], selectedPlacementCells, ship, visited, i);
-
-        if (ship.size() == length) {
-            count++;
-        }
-    }
-
-    return count;
-}
-
 void Board::markSurroundingCells(const Ship& ship) {
     for (const Coordinate& position : ship.getPositions()) {
         for (int dy = -1; dy <= 1; dy++) {
@@ -198,6 +96,94 @@ bool Board::allShipsDestroyed() {
     }
 
     return true;
+}
+
+int Board::countPlacedShipsByLength(
+    int length) const
+{
+    int count = 0;
+
+    auto ships =
+        getPlacementShips();
+
+    for (const auto& ship : ships)
+    {
+        if (ship.size() == length)
+        {
+            count++;
+        }
+    }
+
+    return count;
+}
+
+bool Board::shipsAreSeparated(
+    const std::vector<std::vector<Coordinate>>& ships) const
+{
+    for (int i = 0; i < ships.size(); i++)
+    {
+        for (int j = i + 1; j < ships.size(); j++)
+        {
+            for (const Coordinate& cell1 : ships[i])
+            {
+                for (const Coordinate& cell2 : ships[j])
+                {
+                    int dx =
+                        std::abs(
+                            cell1.x - cell2.x);
+
+                    int dy =
+                        std::abs(
+                            cell1.y - cell2.y);
+
+                    if (dx <= 1 &&
+                        dy <= 1)
+                    {
+                        return false;
+                    }
+                }
+            }
+        }
+    }
+
+    return true;
+}
+
+bool Board::isPlacementReady() const
+{
+    auto ships =
+        getPlacementShips();
+
+        std::cout << "\n===== Erkannte Schiffe =====\n";
+
+for (int i = 0; i < ships.size(); i++)
+{
+    std::cout
+        << "Schiff "
+        << i + 1
+        << ": "
+        << ships[i].size()
+        << " Felder"
+        << std::endl;
+
+    for (const Coordinate& cell : ships[i])
+    {
+        std::cout
+            << "  "
+            << cell.toString()
+            << std::endl;
+    }
+}
+
+    if (!shipsAreSeparated(ships))
+    {
+        return false;
+    }
+
+    return
+        countPlacedShipsByLength(4) == 1 &&
+        countPlacedShipsByLength(3) == 2 &&
+        countPlacedShipsByLength(2) == 3;
 }
 
 const std::vector<Ship>& Board::getShips() const {
