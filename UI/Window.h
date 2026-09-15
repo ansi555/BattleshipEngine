@@ -5,6 +5,7 @@
 #include "../Assets/Colors.h"
 #include "../Engine/Board.h"
 #include "../Engine/GameEngine.h"
+#include "../Engine/Player.h"
 #include "BoardRenderer.h"
 #include "GameState.h"
 #include "MenuRenderer.h"
@@ -23,6 +24,9 @@ class Window {
 
     Board player1Board;
     Board player2Board;
+
+    Player player1;
+    Player player2;
 
     void handleEvents();
     void update();

@@ -8,12 +8,10 @@ void BoardRenderer::init(sf::Font& font) {
     //  -----------------------------
 
     player1BoardLabel.setFont(font);
-    player1BoardLabel.setString("Player 1");
     player1BoardLabel.setCharacterSize(18);
     player1BoardLabel.setFillColor(Colors::Black);
 
     player2BoardLabel.setFont(font);
-    player2BoardLabel.setString("Player 2");
     player2BoardLabel.setCharacterSize(18);
     player2BoardLabel.setFillColor(Colors::Black);
 
@@ -124,8 +122,8 @@ BoardArea BoardRenderer::getBoardArea(sf::RenderWindow& window, Board& board, bo
     return area;
 }
 
-void BoardRenderer::render(sf::RenderWindow& window, Board& board, bool leftBoard, bool showPlacementInfo,
-                           bool active) {
+void BoardRenderer::render(sf::RenderWindow& window, Board& board, const std::string& playerName, bool leftBoard,
+                           bool showPlacementInfo, bool active) {
     //  ------------------------------
     //  Positioning Labels
     //  ------------------------------
@@ -137,10 +135,12 @@ void BoardRenderer::render(sf::RenderWindow& window, Board& board, bool leftBoar
     const int cellSize = 35;
 
     if (leftBoard) {
+        player1BoardLabel.setString(playerName);
         player1BoardLabel.setPosition(area.x + (area.width - player1BoardLabel.getGlobalBounds().width) / 2,
                                       area.y - 95);
         window.draw(player1BoardLabel);
     } else {
+        player2BoardLabel.setString(playerName);
         player2BoardLabel.setPosition(area.x + (area.width - player2BoardLabel.getGlobalBounds().width) / 2,
                                       area.y - 95);
         window.draw(player2BoardLabel);

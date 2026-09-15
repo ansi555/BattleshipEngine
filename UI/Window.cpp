@@ -17,6 +17,9 @@ Window::Window() {
     boardRenderer.init(font);
     // shipRenderer.init(font);
 
+    player1.setName("Finja");
+    player2.setName("Ansgar");
+
     initGame();
 }
 
@@ -100,7 +103,8 @@ void Window::handleEvents() {
                     engine.addMove(move);
 
                     if (player2Board.allShipsDestroyed()) {
-                        winner = "Player 1";
+                        winner = player1.getName();
+                        std::cout << winner << std::endl;
                         state = GAME_OVER;
                         return;
                     }
@@ -135,7 +139,7 @@ void Window::handleEvents() {
                     engine.addMove(move);
 
                     if (player1Board.allShipsDestroyed()) {
-                        winner = "Player 2";
+                        winner = player2.getName();
                         state = GAME_OVER;
                         return;
                     }
@@ -178,21 +182,21 @@ void Window::render() {
 
     if (state == PLACE_SHIPS_P1) {
         BoardArea playerArea = boardRenderer.getBoardArea(window, player1Board, true);
-        boardRenderer.render(window, player1Board, true, true, false);
+        boardRenderer.render(window, player1Board, player1.getName(), true, true, false);
         shipRenderer.render(window, player1Board, playerArea, true, true);
     }
 
     if (state == PLACE_SHIPS_P2) {
         BoardArea enemyArea = boardRenderer.getBoardArea(window, player2Board, false);
-        boardRenderer.render(window, player2Board, false, true, false);
+        boardRenderer.render(window, player2Board, player2.getName(), false, true, false);
         shipRenderer.render(window, player2Board, enemyArea, false, true);
     }
 
     if (state == PLAYER_1_TURN) {
         BoardArea playerArea = boardRenderer.getBoardArea(window, player1Board, true);
         BoardArea enemyArea = boardRenderer.getBoardArea(window, player2Board, false);
-        boardRenderer.render(window, player1Board, true, false, true);
-        boardRenderer.render(window, player2Board, false, false, false);
+        boardRenderer.render(window, player1Board, player1.getName(), true, false, true);
+        boardRenderer.render(window, player2Board, player2.getName(), false, false, false);
         shipRenderer.render(window, player1Board, playerArea, true, false);
         shipRenderer.render(window, player2Board, enemyArea, false, false);
     }
@@ -200,8 +204,8 @@ void Window::render() {
     if (state == PLAYER_2_TURN) {
         BoardArea playerArea = boardRenderer.getBoardArea(window, player1Board, true);
         BoardArea enemyArea = boardRenderer.getBoardArea(window, player2Board, false);
-        boardRenderer.render(window, player1Board, true, false, false);
-        boardRenderer.render(window, player2Board, false, false, true);
+        boardRenderer.render(window, player1Board, player1.getName(), true, false, false);
+        boardRenderer.render(window, player2Board, player2.getName(), false, false, true);
         shipRenderer.render(window, player1Board, playerArea, true, false);
         shipRenderer.render(window, player2Board, enemyArea, false, false);
     }
@@ -209,8 +213,8 @@ void Window::render() {
     if (state == GAME_OVER) {
         BoardArea playerArea = boardRenderer.getBoardArea(window, player1Board, true);
         BoardArea enemyArea = boardRenderer.getBoardArea(window, player2Board, false);
-        boardRenderer.render(window, player1Board, true, false, false);
-        boardRenderer.render(window, player2Board, false, false, false);
+        boardRenderer.render(window, player1Board, player1.getName(), true, false, false);
+        boardRenderer.render(window, player2Board, player2.getName(), false, false, false);
         shipRenderer.render(window, player1Board, playerArea, true, false);
         shipRenderer.render(window, player2Board, enemyArea, false, false);
         boardRenderer.renderGameOver(window, winner);

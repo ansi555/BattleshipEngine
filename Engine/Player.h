@@ -1,18 +1,21 @@
 #pragma once
 
-#include "Board.h"
 #include <string>
 
-class Player
-{
-private:
-	std::string name;
-	Board board;
+#include "Board.h"
 
-public:
-	Player(std::string name);
+class Player {
+   private:
+    std::string name;
+    Board board;
 
-	Board &getBoard();
+   public:
+    Player();
+    Player(const std::string& playerName);
 
-	std::string getName();
+    void setName(const std::string& playerName);
+
+    std::string getName() const;
+
+    Board& getBoard();
 };

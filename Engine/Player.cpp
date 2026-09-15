@@ -1,16 +1,21 @@
 #include "Player.h"
 
-Player::Player(std::string name)
-	: name(name)
-{
+Player::Player() {
+    name = "Player";
 }
 
-Board &Player::getBoard()
-{
-	return board;
+Player::Player(const std::string& playerName) {
+    name = playerName;
 }
 
-std::string Player::getName()
-{
-	return name;
+void Player::setName(const std::string& playerName) {
+    name = playerName;
+}
+
+std::string Player::getName() const {
+    return name;
+}
+
+Board& Player::getBoard() {
+    return board;
 }

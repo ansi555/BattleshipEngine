@@ -3,6 +3,7 @@
 #include <SFML/Graphics.hpp>
 
 #include "../Engine/Board.h"
+#include "../Engine/Player.h"
 
 struct BoardArea {
     int x;
@@ -13,6 +14,9 @@ struct BoardArea {
 
 class BoardRenderer {
    private:
+    Player player1;
+    Player player2;
+
     sf::Text player1BoardLabel;
     sf::Text player2BoardLabel;
 
@@ -38,13 +42,15 @@ class BoardRenderer {
 
     sf::Text gameOverLabel;
     sf::Text winnerLabel;
+    std::string winner;
 
    public:
     void init(sf::Font& font);
 
     Coordinate getClickedCell(sf::RenderWindow& window, Board& board, bool leftBoard);
 
-    void render(sf::RenderWindow& window, Board& board, bool leftBoard, bool showPlacementInfo, bool active);
+    void render(sf::RenderWindow& window, Board& board, const std::string& playerName, bool leftBoard,
+                bool showPlacementInfo, bool active);
 
     BoardArea getBoardArea(sf::RenderWindow& window, Board& board, bool leftBoard);
 
