@@ -64,6 +64,15 @@ void BoardRenderer::init(sf::Font& font) {
     readyBtnLabel.setString("Fertig!");
     readyBtnLabel.setCharacterSize(18);
     readyBtnLabel.setFillColor(Colors::Black);
+
+    visibilityBtn.setSize(sf::Vector2f(100, 30));
+    visibilityBtn.setOutlineColor(Colors::DarkGreen);
+    visibilityBtn.setOutlineThickness(2);
+
+    visibilityBtnLabel.setFont(font);
+    visibilityBtnLabel.setString("Sichtbarkeit");
+    visibilityBtnLabel.setCharacterSize(15);
+    visibilityBtnLabel.setFillColor(Colors::Black);
 }
 
 BoardArea BoardRenderer::getBoardArea(sf::RenderWindow& window, Board& board, bool leftBoard) {
@@ -177,9 +186,20 @@ void BoardRenderer::render(sf::RenderWindow& window, Board& board, bool leftBoar
     }
     readyLabel.setPosition(centerX - readyLabel.getGlobalBounds().width / 2.0f, area.y + area.height + 120);
 
+    visibilityBtn.setPosition(centerX - readyLabel.getGlobalBounds().width / 2.0f, area.y + area.height + 160);
+    visibilityBtnLabel.setPosition(centerX - readyLabel.getGlobalBounds().width / 2.0f, area.y + area.height + 168);
+    if (board.areShipsVisible()) {
+        visibilityBtn.setFillColor(Colors::SuccessGreen);
+    } else {
+        visibilityBtn.setFillColor(Colors::ErrorRed);
+    }
+
     if (showPlacementInfo) {
         window.draw(fleetInfoLabel);
         window.draw(readyLabel);
+
+        window.draw(visibilityBtn);
+        window.draw(visibilityBtnLabel);
     }
 
     //  ------------------------------
@@ -210,4 +230,10 @@ bool BoardRenderer::isReadyBtnClicked(sf::RenderWindow& window) {
     sf::Vector2i mousePos = sf::Mouse::getPosition(window);
 
     return readyBtn.getGlobalBounds().contains(mousePos.x, mousePos.y);
+}
+
+bool BoardRenderer::isVisibilityBtnClicked(sf::RenderWindow& window) {
+    sf::Vector2i mousePos = sf::Mouse::getPosition(window);
+
+    return visibilityBtn.getGlobalBounds().contains(mousePos.x, mousePos.y);
 }

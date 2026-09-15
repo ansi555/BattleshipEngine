@@ -28,6 +28,9 @@ class BoardRenderer {
     sf::RectangleShape readyBtn;
     sf::Text readyBtnLabel;
 
+    sf::RectangleShape visibilityBtn;
+    sf::Text visibilityBtnLabel;
+
    public:
     void init(sf::Font& font);
 
@@ -40,4 +43,6 @@ class BoardRenderer {
     bool isBackBtnClicked(sf::RenderWindow& window);
 
     bool isReadyBtnClicked(sf::RenderWindow& window);
+
+    bool isVisibilityBtnClicked(sf::RenderWindow& window);
 };

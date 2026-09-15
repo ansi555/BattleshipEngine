@@ -114,6 +114,9 @@ void Window::handleEvents() {
                     resetGame();
                     state = MENU;
                 }
+
+                if (boardRenderer.isVisibilityBtnClicked(window)) {
+                }
             }
         }
     }

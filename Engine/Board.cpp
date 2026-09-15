@@ -306,6 +306,14 @@ std::vector<Coordinate> Board::getInvalidPlacementCells() const {
     return invalidCells;
 }
 
+void Board::toggleShipVisibility() {
+    shipsVisible = !shipsVisible;
+}
+
+bool Board::areShipsVisible() const {
+    return shipsVisible;
+}
+
 const std::vector<Coordinate>& Board::getSelectedPlacementCells() const {
     return selectedPlacementCells;
 }

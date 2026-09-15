@@ -16,6 +16,8 @@ class Board {
     std::vector<Coordinate> misses;
     std::vector<Coordinate> selectedPlacementCells;
 
+    bool shipsVisible = false;
+
    public:
     Board(int width = 15, int height = 15);
 
@@ -43,6 +45,9 @@ class Board {
     bool shipsAreSeparated(const std::vector<std::vector<Coordinate>>& ships) const;
 
     std::vector<Coordinate> getInvalidPlacementCells() const;
+
+    void toggleShipVisibility();
+    bool areShipsVisible() const;
 
     const std::vector<Coordinate>& getSelectedPlacementCells() const;
     const std::vector<Ship>& getShips() const;
