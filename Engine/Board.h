@@ -14,6 +14,7 @@ class Board {
 
     std::vector<Coordinate> hits;
     std::vector<Coordinate> misses;
+    std::vector<Coordinate> selectedPlacementCells;
 
    public:
     Board(int width = 15, int height = 15);
@@ -28,7 +29,7 @@ class Board {
     bool allShipsDestroyed();
 
     void markSurroundingCells(const Ship& ship);
-    
+
     int countPlacedShipsByLength(int length) const;
 
     bool isStraightShip(const std::vector<Coordinate>& ship) const;
@@ -36,6 +37,10 @@ class Board {
     bool isPlacementReady() const;
 
     std::vector<std::vector<Coordinate>> getPlacementShips() const;
+
+    void togglePlacementCell(Coordinate coord);
+
+    const std::vector<Coordinate>& getSelectedPlacementCells() const;
 
     bool shipsAreSeparated(const std::vector<std::vector<Coordinate>>& ships) const;
 

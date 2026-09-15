@@ -98,18 +98,13 @@ bool Board::allShipsDestroyed() {
     return true;
 }
 
-int Board::countPlacedShipsByLength(
-    int length) const
-{
+int Board::countPlacedShipsByLength(int length) const {
     int count = 0;
 
-    auto ships =
-        getPlacementShips();
+    auto ships = getPlacementShips();
 
-    for (const auto& ship : ships)
-    {
-        if (ship.size() == length)
-        {
+    for (const auto& ship : ships) {
+        if (ship.size() == length && isStraightShip(ship)) {
             count++;
         }
     }
@@ -117,28 +112,16 @@ int Board::countPlacedShipsByLength(
     return count;
 }
 
-bool Board::shipsAreSeparated(
-    const std::vector<std::vector<Coordinate>>& ships) const
-{
-    for (int i = 0; i < ships.size(); i++)
-    {
-        for (int j = i + 1; j < ships.size(); j++)
-        {
-            for (const Coordinate& cell1 : ships[i])
-            {
-                for (const Coordinate& cell2 : ships[j])
-                {
-                    int dx =
-                        std::abs(
-                            cell1.x - cell2.x);
+bool Board::shipsAreSeparated(const std::vector<std::vector<Coordinate>>& ships) const {
+    for (int i = 0; i < ships.size(); i++) {
+        for (int j = i + 1; j < ships.size(); j++) {
+            for (const Coordinate& cell1 : ships[i]) {
+                for (const Coordinate& cell2 : ships[j]) {
+                    int dx = std::abs(cell1.x - cell2.x);
 
-                    int dy =
-                        std::abs(
-                            cell1.y - cell2.y);
+                    int dy = std::abs(cell1.y - cell2.y);
 
-                    if (dx <= 1 &&
-                        dy <= 1)
-                    {
+                    if (dx <= 1 && dy <= 1) {
                         return false;
                     }
                 }
@@ -149,73 +132,140 @@ bool Board::shipsAreSeparated(
     return true;
 }
 
-bool Board::isStraightShip(
-    const std::vector<Coordinate>& ship) const
-{
-    if (ship.empty())
-    {
+bool Board::isStraightShip(const std::vector<Coordinate>& ship) const {
+    if (ship.size() < 2) {
         return false;
     }
 
     bool sameX = true;
     bool sameY = true;
 
-    int firstX = ship[0].x;
-    int firstY = ship[0].y;
-
-    for (const Coordinate& cell : ship)
-    {
-        if (cell.x != firstX)
-        {
+    for (size_t i = 1; i < ship.size(); i++) {
+        if (ship[i].x != ship[0].x) {
             sameX = false;
         }
 
-        if (cell.y != firstY)
-        {
+        if (ship[i].y != ship[0].y) {
             sameY = false;
         }
     }
 
-    return sameX || sameY;
-}
-
-bool Board::isPlacementReady() const
-{
-    auto ships =
-        getPlacementShips();
-
-        std::cout << "\n===== Erkannte Schiffe =====\n";
-
-for (int i = 0; i < ships.size(); i++)
-{
-    std::cout
-        << "Schiff "
-        << i + 1
-        << ": "
-        << ships[i].size()
-        << " Felder"
-        << std::endl;
-
-    for (const Coordinate& cell : ships[i])
-    {
-        std::cout
-            << "  "
-            << cell.toString()
-            << std::endl;
-    }
-}
-
-    if (!shipsAreSeparated(ships))
-    {
+    if (!sameX && !sameY) {
         return false;
     }
 
-    return
-        countPlacedShipsByLength(4) == 1 &&
-        countPlacedShipsByLength(3) == 2 &&
-        countPlacedShipsByLength(2) == 3;
+    if (sameX) {
+        int minY = ship[0].y;
+        int maxY = ship[0].y;
+
+        for (const Coordinate& cell : ship) {
+            minY = std::min(minY, cell.y);
+            maxY = std::max(maxY, cell.y);
+        }
+
+        return (maxY - minY + 1) == static_cast<int>(ship.size());
+    }
+
+    int minX = ship[0].x;
+    int maxX = ship[0].x;
+
+    for (const Coordinate& cell : ship) {
+        minX = std::min(minX, cell.x);
+        maxX = std::max(maxX, cell.x);
+    }
+
+    return (maxX - minX + 1) == static_cast<int>(ship.size());
 }
 
+bool Board::isPlacementReady() const {
+    auto ships = getPlacementShips();
+
+    /* std::cout << "\n===== Erkannte Schiffe =====\n";
+    for (int i = 0; i < ships.size(); i++) {
+        std::cout << "Schiff " << i + 1 << ": " << ships[i].size() << " Felder" << std::endl;
+
+        for (const Coordinate& cell : ships[i]) {
+            std::cout << "  " << cell.toString() << std::endl;
+        }
+    } */
+
+    if (selectedPlacementCells.size() != 16) {
+        return false;
+    }
+
+    for (const auto& ship : ships) {
+        std::cout << "Straight: " << isStraightShip(ship) << std::endl;
+    }
+
+    if (!shipsAreSeparated(ships)) {
+        return false;
+    }
+
+    return countPlacedShipsByLength(4) == 1 && countPlacedShipsByLength(3) == 2 && countPlacedShipsByLength(2) == 3;
+}
+
+std::vector<std::vector<Coordinate>> Board::getPlacementShips() const {
+    std::vector<std::vector<Coordinate>> ships;
+
+    std::vector<bool> visited(selectedPlacementCells.size(), false);
+
+    for (size_t i = 0; i < selectedPlacementCells.size(); i++) {
+        if (visited[i]) {
+            continue;
+        }
+
+        std::vector<Coordinate> currentShip;
+        std::vector<size_t> stack;
+
+        stack.push_back(i);
+        visited[i] = true;
+
+        while (!stack.empty()) {
+            size_t currentIndex = stack.back();
+
+            stack.pop_back();
+
+            currentShip.push_back(selectedPlacementCells[currentIndex]);
+
+            for (size_t j = 0; j < selectedPlacementCells.size(); j++) {
+                if (visited[j]) {
+                    continue;
+                }
+
+                int dx = std::abs(selectedPlacementCells[currentIndex].x - selectedPlacementCells[j].x);
+
+                int dy = std::abs(selectedPlacementCells[currentIndex].y - selectedPlacementCells[j].y);
+
+                bool neighbour = (dx == 1 && dy == 0) || (dx == 0 && dy == 1);
+
+                if (neighbour) {
+                    visited[j] = true;
+                    stack.push_back(j);
+                }
+            }
+        }
+
+        ships.push_back(currentShip);
+    }
+
+    return ships;
+}
+
+void Board::togglePlacementCell(Coordinate coord) {
+    for (size_t i = 0; i < selectedPlacementCells.size(); i++) {
+        if (selectedPlacementCells[i].x == coord.x && selectedPlacementCells[i].y == coord.y) {
+            selectedPlacementCells.erase(selectedPlacementCells.begin() + i);
+
+            return;
+        }
+    }
+
+    selectedPlacementCells.push_back(coord);
+}
+
+const std::vector<Coordinate>& Board::getSelectedPlacementCells() const {
+    return selectedPlacementCells;
+}
 const std::vector<Ship>& Board::getShips() const {
     return ships;
 }
