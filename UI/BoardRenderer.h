@@ -19,6 +19,8 @@ class BoardRenderer {
     sf::Text rowLabels[10];
     sf::Text columnLabels[10];
 
+    sf::RectangleShape border;
+
     sf::Text fleetInfoLabel;
     sf::Text readyLabel;
 
@@ -36,7 +38,7 @@ class BoardRenderer {
 
     Coordinate getClickedCell(sf::RenderWindow& window, Board& board, bool leftBoard);
 
-    void render(sf::RenderWindow& window, Board& board, bool leftBoard, bool showPlacementInfo);
+    void render(sf::RenderWindow& window, Board& board, bool leftBoard, bool showPlacementInfo, bool active);
 
     BoardArea getBoardArea(sf::RenderWindow& window, Board& board, bool leftBoard);
 

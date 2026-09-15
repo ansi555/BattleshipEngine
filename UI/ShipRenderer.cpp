@@ -86,7 +86,7 @@ void ShipRenderer::render(sf::RenderWindow& window, Board& board, BoardArea area
                 cell.setFillColor(Colors::SuccessGreen);
             } else if (isMiss) {
                 cell.setFillColor(Colors::WaterBlue);
-            } else if (containsShip && leftBoard) {
+            } else if (containsShip && board.areShipsVisible()) {
                 cell.setFillColor(Colors::SuccessGreen);
             } else {
                 cell.setFillColor(Colors::CellGrey);

@@ -1,10 +1,3 @@
 #pragma once
 
-enum GameState {
-    MENU,
-    PLACE_SHIPS_P1,
-    SCREEN_HANDOVER,
-    PLACE_SHIPS_P2,
-    // GAME_OVER,
-    BOARD
-};
+enum GameState { MENU, PLACE_SHIPS_P1, PLACE_SHIPS_P2, PLAYER_1_TURN, PLAYER_2_TURN, GAME_OVER };

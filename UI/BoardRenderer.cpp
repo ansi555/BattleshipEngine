@@ -37,6 +37,8 @@ void BoardRenderer::init(sf::Font& font) {
         rowLabels[i].setFillColor(Colors::DarkGreen);
     }
 
+    border.setFillColor(sf::Color::Transparent);
+
     fleetInfoLabel.setFont(font);
     fleetInfoLabel.setCharacterSize(20);
 
@@ -100,7 +102,8 @@ BoardArea BoardRenderer::getBoardArea(sf::RenderWindow& window, Board& board, bo
     return area;
 }
 
-void BoardRenderer::render(sf::RenderWindow& window, Board& board, bool leftBoard, bool showPlacementInfo) {
+void BoardRenderer::render(sf::RenderWindow& window, Board& board, bool leftBoard, bool showPlacementInfo,
+                           bool active) {
     //  ------------------------------
     //  Positioning Labels
     //  ------------------------------
@@ -148,13 +151,16 @@ void BoardRenderer::render(sf::RenderWindow& window, Board& board, bool leftBoar
     //  Setting up border
     //  ------------------------------
 
-    sf::RectangleShape border;
-
     border.setPosition(area.x - 4, area.y - 4);
     border.setSize(sf::Vector2f(area.width + 8, area.height + 8));
-    border.setFillColor(sf::Color::Transparent);
-    border.setOutlineColor(Colors::DarkGreen);
-    border.setOutlineThickness(3);
+    if (active) {
+        border.setOutlineColor(Colors::SuccessGreen);
+        border.setOutlineThickness(6);
+    } else {
+        border.setOutlineColor(Colors::DarkGreen);
+        border.setOutlineThickness(3);
+    }
+
     window.draw(border);
 
     std::string fleetInfo = "4er: " + std::to_string(board.countPlacedShipsByLength(4)) +
