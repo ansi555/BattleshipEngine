@@ -314,6 +314,14 @@ bool Board::areShipsVisible() const {
     return shipsVisible;
 }
 
+void Board::finishPlacement() {
+    auto placementShips = getPlacementShips();
+    for (const auto& shipCells : placementShips) {
+        Ship ship(shipCells);
+        placeShip(ship);
+    }
+}
+
 const std::vector<Coordinate>& Board::getSelectedPlacementCells() const {
     return selectedPlacementCells;
 }

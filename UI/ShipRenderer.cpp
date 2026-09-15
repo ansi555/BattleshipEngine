@@ -25,20 +25,12 @@ void ShipRenderer::render(sf::RenderWindow& window, Board& board, BoardArea area
             cell.setOutlineThickness(1);
 
             bool containsShip = false;
-            bool isPlacementCell = false;
             bool isInvalidPlacementCell = false;
             bool belongsToSunkShip = false;
 
             for (const Coordinate& invalidCell : board.getInvalidPlacementCells()) {
                 if (invalidCell.x == col && invalidCell.y == row) {
                     isInvalidPlacementCell = true;
-                    break;
-                }
-            }
-
-            for (const Coordinate& placementCell : board.getSelectedPlacementCells()) {
-                if (placementCell.x == col && placementCell.y == row) {
-                    isPlacementCell = true;
                     break;
                 }
             }
@@ -78,8 +70,6 @@ void ShipRenderer::render(sf::RenderWindow& window, Board& board, BoardArea area
 
             if (isInvalidPlacementCell) {
                 cell.setFillColor(Colors::ErrorRed);
-            } else if (isPlacementCell) {
-                cell.setFillColor(Colors::Purpur);
             } else if (belongsToSunkShip) {
                 cell.setFillColor(Colors::Purpur);
             } else if (isHit) {

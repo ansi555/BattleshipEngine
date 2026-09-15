@@ -49,6 +49,8 @@ class Board {
     void toggleShipVisibility();
     bool areShipsVisible() const;
 
+    void finishPlacement();
+
     const std::vector<Coordinate>& getSelectedPlacementCells() const;
     const std::vector<Ship>& getShips() const;
     const std::vector<Coordinate>& getHits() const;

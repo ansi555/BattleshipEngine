@@ -60,6 +60,7 @@ void Window::handleEvents() {
                     state = MENU;
                 }
                 if (boardRenderer.isReadyBtnClicked(window) && player1Board.isPlacementReady()) {
+                    player1Board.finishPlacement();
                     state = PLACE_SHIPS_P2;
                 }
             } else if (state == PLACE_SHIPS_P2) {
@@ -72,6 +73,7 @@ void Window::handleEvents() {
                     state = MENU;
                 }
                 if (boardRenderer.isReadyBtnClicked(window) && player2Board.isPlacementReady()) {
+                    player2Board.finishPlacement();
                     state = PLAYER_1_TURN;
                 }
             } else if (state == PLAYER_1_TURN) {
