@@ -195,10 +195,6 @@ bool Board::isPlacementReady() const {
         return false;
     }
 
-    for (const auto& ship : ships) {
-        std::cout << "Straight: " << isStraightShip(ship) << std::endl;
-    }
-
     if (!shipsAreSeparated(ships)) {
         return false;
     }
@@ -340,7 +336,6 @@ void Board::loadPlacementFromJson(const std::string& filePath) {
         int y = std::stoi((*it)[2]);
         selectedPlacementCells.push_back(Coordinate(x, y));
     }
-    std::cout << "Loaded " << selectedPlacementCells.size() << " placement cells." << std::endl;
 }
 
 const std::vector<Coordinate>& Board::getSelectedPlacementCells() const {

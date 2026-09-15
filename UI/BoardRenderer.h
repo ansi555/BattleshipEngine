@@ -36,6 +36,9 @@ class BoardRenderer {
     sf::RectangleShape jsonBtn;
     sf::Text jsonBtnLabel;
 
+    sf::Text gameOverLabel;
+    sf::Text winnerLabel;
+
    public:
     void init(sf::Font& font);
 
@@ -52,4 +55,6 @@ class BoardRenderer {
     bool isVisibilityBtnClicked(sf::RenderWindow& window);
 
     bool isJsonBtnClicked(sf::RenderWindow& window);
+
+    void renderGameOver(sf::RenderWindow& window, const std::string& winner);
 };

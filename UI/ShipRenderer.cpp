@@ -37,6 +37,13 @@ void ShipRenderer::render(sf::RenderWindow& window, Board& board, BoardArea area
                 }
             }
 
+            for (const Coordinate& placementCell : board.getSelectedPlacementCells()) {
+                if (placementCell.x == col && placementCell.y == row) {
+                    isPlacementCell = true;
+                    break;
+                }
+            }
+
             for (const Ship& ship : board.getShips()) {
                 for (const Coordinate& position : ship.getPositions()) {
                     if (position.x == col && position.y == row) {

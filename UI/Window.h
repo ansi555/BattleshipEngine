@@ -24,6 +24,10 @@ class Window {
     Board player1Board;
     Board player2Board;
 
+    void handleEvents();
+    void update();
+    void render();
+
    public:
     Window();
 
@@ -31,8 +35,5 @@ class Window {
     void resetGame();
     void initGame();
 
-   private:
-    void handleEvents();
-    void update();
-    void render();
+    std::string winner;
 };

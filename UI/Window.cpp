@@ -65,6 +65,8 @@ void Window::handleEvents() {
                 }
                 if (boardRenderer.isJsonBtnClicked(window)) {
                     player1Board.loadPlacementFromJson("Assets/placements.json");
+                    std::cout << "Loaded " << player1Board.getSelectedPlacementCells().size() << " placement cells."
+                              << std::endl;
                 }
             } else if (state == PLACE_SHIPS_P2) {
                 Coordinate clickedCell = boardRenderer.getClickedCell(window, player2Board, false);
@@ -81,19 +83,27 @@ void Window::handleEvents() {
                 }
                 if (boardRenderer.isJsonBtnClicked(window)) {
                     player2Board.loadPlacementFromJson("Assets/placements.json");
+                    std::cout << "Loaded " << player2Board.getSelectedPlacementCells().size() << " placement cells."
+                              << std::endl;
                 }
             } else if (state == PLAYER_1_TURN) {
                 Coordinate clickedCell = boardRenderer.getClickedCell(window, player2Board, false);
 
                 if (clickedCell.x != -1) {
                     bool hit = player2Board.shoot(clickedCell);
-
+                    std::cout << "allShipsDestroyed: " << player2Board.allShipsDestroyed() << std::endl;
                     Move move;
 
                     move.coordinate = clickedCell;
                     move.hit = hit;
 
                     engine.addMove(move);
+
+                    if (player2Board.allShipsDestroyed()) {
+                        winner = "Player 1";
+                        state = GAME_OVER;
+                        return;
+                    }
 
                     if (hit) {
                         state = PLAYER_1_TURN;
@@ -109,19 +119,26 @@ void Window::handleEvents() {
 
                 if (boardRenderer.isVisibilityBtnClicked(window)) {
                     player1Board.toggleShipVisibility();
+                    std::cout << "VISIBLE: " << player1Board.areShipsVisible() << std::endl;
                 }
             } else if (state == PLAYER_2_TURN) {
                 Coordinate clickedCell = boardRenderer.getClickedCell(window, player1Board, true);
 
                 if (clickedCell.x != -1) {
                     bool hit = player1Board.shoot(clickedCell);
-
+                    std::cout << "allShipsDestroyed: " << player1Board.allShipsDestroyed() << std::endl;
                     Move move;
 
                     move.coordinate = clickedCell;
                     move.hit = hit;
 
                     engine.addMove(move);
+
+                    if (player1Board.allShipsDestroyed()) {
+                        winner = "Player 2";
+                        state = GAME_OVER;
+                        return;
+                    }
 
                     if (hit) {
                         state = PLAYER_2_TURN;
@@ -136,12 +153,15 @@ void Window::handleEvents() {
                 }
 
                 if (boardRenderer.isVisibilityBtnClicked(window)) {
-                    player1Board.toggleShipVisibility();
+                    player2Board.toggleShipVisibility();
+                    std::cout << "VISIBLE: " << player2Board.areShipsVisible() << std::endl;
                 }
-            } else if (player1Board.allShipsDestroyed()) {
-                state = GAME_OVER;
-            } else if (player2Board.allShipsDestroyed()) {
-                state = GAME_OVER;
+            } else if (state == GAME_OVER) {
+                if (boardRenderer.isBackBtnClicked(window)) {
+                    resetGame();
+                    state = MENU;
+                }
+                return;
             }
         }
     }
@@ -171,8 +191,8 @@ void Window::render() {
     if (state == PLAYER_1_TURN) {
         BoardArea playerArea = boardRenderer.getBoardArea(window, player1Board, true);
         BoardArea enemyArea = boardRenderer.getBoardArea(window, player2Board, false);
-        boardRenderer.render(window, player1Board, true, false, false);
-        boardRenderer.render(window, player2Board, false, false, true);
+        boardRenderer.render(window, player1Board, true, false, true);
+        boardRenderer.render(window, player2Board, false, false, false);
         shipRenderer.render(window, player1Board, playerArea, true, false);
         shipRenderer.render(window, player2Board, enemyArea, false, false);
     }
@@ -180,10 +200,20 @@ void Window::render() {
     if (state == PLAYER_2_TURN) {
         BoardArea playerArea = boardRenderer.getBoardArea(window, player1Board, true);
         BoardArea enemyArea = boardRenderer.getBoardArea(window, player2Board, false);
-        boardRenderer.render(window, player1Board, true, false, true);
+        boardRenderer.render(window, player1Board, true, false, false);
+        boardRenderer.render(window, player2Board, false, false, true);
+        shipRenderer.render(window, player1Board, playerArea, true, false);
+        shipRenderer.render(window, player2Board, enemyArea, false, false);
+    }
+
+    if (state == GAME_OVER) {
+        BoardArea playerArea = boardRenderer.getBoardArea(window, player1Board, true);
+        BoardArea enemyArea = boardRenderer.getBoardArea(window, player2Board, false);
+        boardRenderer.render(window, player1Board, true, false, false);
         boardRenderer.render(window, player2Board, false, false, false);
         shipRenderer.render(window, player1Board, playerArea, true, false);
         shipRenderer.render(window, player2Board, enemyArea, false, false);
+        boardRenderer.renderGameOver(window, winner);
     }
 
     window.display();

@@ -70,11 +70,13 @@ void BoardRenderer::init(sf::Font& font) {
     visibilityBtn.setSize(sf::Vector2f(100, 30));
     visibilityBtn.setOutlineColor(Colors::DarkGreen);
     visibilityBtn.setOutlineThickness(2);
+    visibilityBtn.setPosition(150, 50);
 
     visibilityBtnLabel.setFont(font);
     visibilityBtnLabel.setString("Sichtbarkeit");
     visibilityBtnLabel.setCharacterSize(15);
     visibilityBtnLabel.setFillColor(Colors::Black);
+    visibilityBtnLabel.setPosition(162, 55);
 
     jsonBtn.setSize(sf::Vector2f(150, 40));
     jsonBtn.setPosition(150, 50);
@@ -87,6 +89,14 @@ void BoardRenderer::init(sf::Font& font) {
     jsonBtnLabel.setCharacterSize(18);
     jsonBtnLabel.setFillColor(Colors::Black);
     jsonBtnLabel.setPosition(170, 58);
+
+    gameOverLabel.setFont(font);
+    gameOverLabel.setCharacterSize(36);
+    gameOverLabel.setFillColor(Colors::ErrorRed);
+
+    winnerLabel.setFont(font);
+    winnerLabel.setCharacterSize(24);
+    winnerLabel.setFillColor(Colors::SuccessGreen);
 }
 
 BoardArea BoardRenderer::getBoardArea(sf::RenderWindow& window, Board& board, bool leftBoard) {
@@ -196,16 +206,12 @@ void BoardRenderer::render(sf::RenderWindow& window, Board& board, bool leftBoar
     if (board.isPlacementReady()) {
         readyLabel.setString("READY");
         readyLabel.setFillColor(Colors::SuccessGreen);
-        window.draw(readyBtn);
-        window.draw(readyBtnLabel);
     } else {
         readyLabel.setString("NOT READY");
         readyLabel.setFillColor(Colors::ErrorRed);
     }
     readyLabel.setPosition(centerX - readyLabel.getGlobalBounds().width / 2.0f, area.y + area.height + 120);
 
-    visibilityBtn.setPosition(centerX - readyLabel.getGlobalBounds().width / 2.0f, area.y + area.height + 160);
-    visibilityBtnLabel.setPosition(centerX - readyLabel.getGlobalBounds().width / 2.0f, area.y + area.height + 168);
     if (board.areShipsVisible()) {
         visibilityBtn.setFillColor(Colors::SuccessGreen);
     } else {
@@ -215,13 +221,15 @@ void BoardRenderer::render(sf::RenderWindow& window, Board& board, bool leftBoar
     if (showPlacementInfo) {
         window.draw(fleetInfoLabel);
         window.draw(readyLabel);
+        window.draw(readyBtn);
+        window.draw(readyBtnLabel);
 
+        window.draw(jsonBtn);
+        window.draw(jsonBtnLabel);
+    } else if (active) {
         window.draw(visibilityBtn);
         window.draw(visibilityBtnLabel);
     }
-
-    window.draw(jsonBtn);
-    window.draw(jsonBtnLabel);
 
     //  ------------------------------
     //  Positioning and generated cells
@@ -239,6 +247,19 @@ Coordinate BoardRenderer::getClickedCell(sf::RenderWindow& window, Board& board,
     int col = (mousePos.x - area.x) / cellSize;
     int row = (mousePos.y - area.y) / cellSize;
     return Coordinate(col, row);
+}
+
+void BoardRenderer::renderGameOver(sf::RenderWindow& window, const std::string& winner) {
+    gameOverLabel.setString("GAME OVER");
+
+    winnerLabel.setString(winner + " gewinnt!");
+
+    gameOverLabel.setPosition(window.getSize().x / 2.f - gameOverLabel.getGlobalBounds().width / 2.f, 700);
+
+    winnerLabel.setPosition(window.getSize().x / 2.f - winnerLabel.getGlobalBounds().width / 2.f, 750);
+
+    window.draw(gameOverLabel);
+    window.draw(winnerLabel);
 }
 
 bool BoardRenderer::isBackBtnClicked(sf::RenderWindow& window) {
