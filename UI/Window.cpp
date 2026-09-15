@@ -59,6 +59,9 @@ void Window::handleEvents() {
                     resetGame();
                     state = MENU;
                 }
+                if (boardRenderer.isReadyBtnClicked(window) && player1Board.isPlacementReady()) {
+                    state = PLACE_SHIPS_P2;
+                }
             } else if (state == BOARD) {
                 Coordinate clickedCell1 = boardRenderer.getClickedCell(window, player1Board, true);
                 Coordinate clickedCell2 = boardRenderer.getClickedCell(window, player2Board, false);
@@ -115,10 +118,13 @@ void Window::render() {
 
     if (state == PLACE_SHIPS_P1) {
         BoardArea playerArea = boardRenderer.getBoardArea(window, player1Board, true);
-        BoardArea enemyArea = boardRenderer.getBoardArea(window, player2Board, false);
         boardRenderer.render(window, player1Board, true, true);
-        boardRenderer.render(window, player2Board, false, false);
         shipRenderer.render(window, player1Board, playerArea, true);
+    }
+
+    if (state == PLACE_SHIPS_P2) {
+        BoardArea enemyArea = boardRenderer.getBoardArea(window, player2Board, false);
+        boardRenderer.render(window, player2Board, false, false);
         shipRenderer.render(window, player2Board, enemyArea, false);
     }
 

@@ -54,6 +54,16 @@ void BoardRenderer::init(sf::Font& font) {
     backBtnLabel.setCharacterSize(15);
     backBtnLabel.setFillColor(Colors::Black);
     backBtnLabel.setPosition(55, 55);
+
+    readyBtn.setSize(sf::Vector2f(100, 40));
+    readyBtn.setFillColor(Colors::SuccessGreen);
+    readyBtn.setOutlineColor(Colors::DarkGreen);
+    readyBtn.setOutlineThickness(2);
+
+    readyBtnLabel.setFont(font);
+    readyBtnLabel.setString("Fertig!");
+    readyBtnLabel.setCharacterSize(18);
+    readyBtnLabel.setFillColor(Colors::Black);
 }
 
 BoardArea BoardRenderer::getBoardArea(sf::RenderWindow& window, Board& board, bool leftBoard) {
@@ -148,6 +158,10 @@ void BoardRenderer::render(sf::RenderWindow& window, Board& board, bool leftBoar
 
     float centerX = area.x + area.width / 2.0f;
 
+    readyBtn.setPosition(centerX - 50, area.y + area.height + 170);
+
+    readyBtnLabel.setPosition(centerX - readyBtnLabel.getGlobalBounds().width / 2.f, area.y + area.height + 178);
+
     fleetInfoLabel.setString(fleetInfo);
     fleetInfoLabel.setFillColor(Colors::Black);
     fleetInfoLabel.setPosition(centerX - fleetInfoLabel.getGlobalBounds().width / 2.0f, area.y + area.height + 30);
@@ -155,6 +169,8 @@ void BoardRenderer::render(sf::RenderWindow& window, Board& board, bool leftBoar
     if (board.isPlacementReady()) {
         readyLabel.setString("READY");
         readyLabel.setFillColor(Colors::SuccessGreen);
+        window.draw(readyBtn);
+        window.draw(readyBtnLabel);
     } else {
         readyLabel.setString("NOT READY");
         readyLabel.setFillColor(Colors::ErrorRed);
@@ -188,4 +204,10 @@ bool BoardRenderer::isBackBtnClicked(sf::RenderWindow& window) {
     sf::Vector2i mousePos = sf::Mouse::getPosition(window);
 
     return backBtn.getGlobalBounds().contains(mousePos.x, mousePos.y);
+}
+
+bool BoardRenderer::isReadyBtnClicked(sf::RenderWindow& window) {
+    sf::Vector2i mousePos = sf::Mouse::getPosition(window);
+
+    return readyBtn.getGlobalBounds().contains(mousePos.x, mousePos.y);
 }
