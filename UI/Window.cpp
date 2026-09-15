@@ -13,6 +13,11 @@ Window::Window() {
     state = MENU;
     font.loadFromFile("Assets/Roboto-Regular.ttf");
 
+    darkModeButton.setSize(sf::Vector2f(150, 40));
+    darkModeButton.setFillColor(Colors::SuccessGreen());
+    darkModeButtonLabel.setFont(font);
+    darkModeButtonLabel.setCharacterSize(16);
+
     menuRenderer.init(font);
     boardRenderer.init(font);
     // shipRenderer.init(font);
@@ -46,6 +51,11 @@ void Window::handleEvents() {
         }
 
         if (event.type == sf::Event::MouseButtonPressed) {
+            if (isDarkModeButtonClicked()) {
+                Colors::toggleDarkMode();
+                return;
+            }
+
             if (state == MENU) {
                 if (menuRenderer.isTestBoardClicked(window)) {
                     initGame();
@@ -174,7 +184,8 @@ void Window::handleEvents() {
 void Window::update() {}
 
 void Window::render() {
-    window.clear(Colors::Menu);
+    window.clear(Colors::Menu());
+    renderBackground();
 
     if (state == MENU) {
         menuRenderer.render(window);
@@ -220,5 +231,43 @@ void Window::render() {
         boardRenderer.renderGameOver(window, winner);
     }
 
+    renderDarkModeButton();
     window.display();
+}
+
+void Window::renderBackground() {
+    const sf::Vector2f size(window.getSize());
+    sf::VertexArray background(sf::Quads, 4);
+
+    background[0].position = sf::Vector2f(0, 0);
+    background[1].position = sf::Vector2f(size.x, 0);
+    background[2].position = sf::Vector2f(size.x, size.y);
+    background[3].position = sf::Vector2f(0, size.y);
+
+    background[0].color = Colors::BackgroundTop();
+    background[1].color = Colors::BackgroundTop();
+    background[2].color = Colors::BackgroundBottom();
+    background[3].color = Colors::BackgroundBottom();
+
+    window.draw(background);
+}
+
+void Window::renderDarkModeButton() {
+    const sf::Vector2u windowSize = window.getSize();
+    darkModeButton.setFillColor(Colors::SuccessGreen());
+    darkModeButton.setPosition(windowSize.x - darkModeButton.getSize().x - 20,
+                               windowSize.y - darkModeButton.getSize().y - 20);
+    darkModeButtonLabel.setString(Colors::darkMode ? "Lightmode" : "Darkmode");
+    darkModeButtonLabel.setFillColor(Colors::Black());
+    darkModeButtonLabel.setPosition(
+        darkModeButton.getPosition().x + (darkModeButton.getSize().x - darkModeButtonLabel.getGlobalBounds().width) / 2.f,
+        darkModeButton.getPosition().y + (darkModeButton.getSize().y - darkModeButtonLabel.getGlobalBounds().height) / 2.f - 4.f);
+
+    window.draw(darkModeButton);
+    window.draw(darkModeButtonLabel);
+}
+
+bool Window::isDarkModeButtonClicked() const {
+    sf::Vector2i mousePos = sf::Mouse::getPosition(window);
+    return darkModeButton.getGlobalBounds().contains(mousePos.x, mousePos.y);
 }

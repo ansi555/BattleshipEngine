@@ -15,6 +15,8 @@ class Window {
    private:
     sf::RenderWindow window;
     sf::Font font;
+    sf::RectangleShape darkModeButton;
+    sf::Text darkModeButtonLabel;
 
     GameEngine engine;
     MenuRenderer menuRenderer;
@@ -31,6 +33,9 @@ class Window {
     void handleEvents();
     void update();
     void render();
+    void renderBackground();
+    void renderDarkModeButton();
+    bool isDarkModeButtonClicked() const;
 
    public:
     Window();

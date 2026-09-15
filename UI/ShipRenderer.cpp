@@ -21,8 +21,8 @@ void ShipRenderer::render(sf::RenderWindow& window, Board& board, BoardArea area
             sf::RectangleShape cell;
             cell.setSize(sf::Vector2f(cellSize, cellSize));
             cell.setPosition(area.x + col * cellSize, area.y + row * cellSize);
-            cell.setFillColor(Colors::CellGrey);
-            cell.setOutlineColor(Colors::OnyxHeart);
+            cell.setFillColor(Colors::CellGrey());
+            cell.setOutlineColor(Colors::OnyxHeart());
             cell.setOutlineThickness(1);
 
             bool containsShip = false;
@@ -78,19 +78,19 @@ void ShipRenderer::render(sf::RenderWindow& window, Board& board, BoardArea area
             }
 
             if (isInvalidPlacementCell) {
-                cell.setFillColor(Colors::ErrorRed);
+                cell.setFillColor(Colors::ErrorRed());
             } else if (isPlacementCell && showPlacementCells) {
-                cell.setFillColor(Colors::Purpur);
+                cell.setFillColor(Colors::Purpur());
             } else if (belongsToSunkShip) {
-                cell.setFillColor(Colors::Purpur);
+                cell.setFillColor(Colors::Purpur());
             } else if (isHit) {
-                cell.setFillColor(Colors::SuccessGreen);
+                cell.setFillColor(Colors::SuccessGreen());
             } else if (isMiss) {
-                cell.setFillColor(Colors::WaterBlue);
+                cell.setFillColor(Colors::WaterBlue());
             } else if (containsShip && board.areShipsVisible()) {
-                cell.setFillColor(Colors::SuccessGreen);
+                cell.setFillColor(Colors::SuccessGreen());
             } else {
-                cell.setFillColor(Colors::CellGrey);
+                cell.setFillColor(Colors::CellGrey());
             }
 
             window.draw(cell);

@@ -9,11 +9,11 @@ void BoardRenderer::init(sf::Font& font) {
 
     player1BoardLabel.setFont(font);
     player1BoardLabel.setCharacterSize(18);
-    player1BoardLabel.setFillColor(Colors::Black);
+    player1BoardLabel.setFillColor(Colors::Black());
 
     player2BoardLabel.setFont(font);
     player2BoardLabel.setCharacterSize(18);
-    player2BoardLabel.setFillColor(Colors::Black);
+    player2BoardLabel.setFillColor(Colors::Black());
 
     //  ------------------------------
     //  Setting up Labels for coordinates
@@ -23,7 +23,7 @@ void BoardRenderer::init(sf::Font& font) {
         columnLabels[i].setFont(font);
         columnLabels[i].setString(std::string(1, 'A' + i));
         columnLabels[i].setCharacterSize(10);
-        columnLabels[i].setFillColor(Colors::DarkGreen);
+        columnLabels[i].setFillColor(Colors::SuccessGreen());
 
         rowLabels[i].setFont(font);
         std::string number = std::to_string(i + 1);
@@ -32,7 +32,7 @@ void BoardRenderer::init(sf::Font& font) {
         }
         rowLabels[i].setString(number);
         rowLabels[i].setCharacterSize(10);
-        rowLabels[i].setFillColor(Colors::DarkGreen);
+        rowLabels[i].setFillColor(Colors::SuccessGreen());
     }
 
     border.setFillColor(sf::Color::Transparent);
@@ -45,56 +45,56 @@ void BoardRenderer::init(sf::Font& font) {
 
     backBtn.setSize(sf::Vector2f(43, 30));
     backBtn.setPosition(50, 50);
-    backBtn.setFillColor(Colors::SuccessGreen);
-    backBtn.setOutlineColor(Colors::DarkGreen);
+    backBtn.setFillColor(Colors::SuccessGreen());
+    backBtn.setOutlineColor(Colors::SuccessGreen());
     backBtn.setOutlineThickness(1);
 
     backBtnLabel.setFont(font);
     backBtnLabel.setString("Back");
     backBtnLabel.setCharacterSize(15);
-    backBtnLabel.setFillColor(Colors::Black);
+    backBtnLabel.setFillColor(Colors::Black());
     backBtnLabel.setPosition(55, 55);
 
     readyBtn.setSize(sf::Vector2f(100, 40));
-    readyBtn.setFillColor(Colors::SuccessGreen);
-    readyBtn.setOutlineColor(Colors::DarkGreen);
+    readyBtn.setFillColor(Colors::SuccessGreen());
+    readyBtn.setOutlineColor(Colors::SuccessGreen());
     readyBtn.setOutlineThickness(2);
 
     readyBtnLabel.setFont(font);
     readyBtnLabel.setString("Fertig!");
     readyBtnLabel.setCharacterSize(18);
-    readyBtnLabel.setFillColor(Colors::Black);
+    readyBtnLabel.setFillColor(Colors::Black());
 
     visibilityBtn.setSize(sf::Vector2f(100, 30));
-    visibilityBtn.setOutlineColor(Colors::DarkGreen);
+    visibilityBtn.setOutlineColor(Colors::SuccessGreen());
     visibilityBtn.setOutlineThickness(2);
     visibilityBtn.setPosition(150, 50);
 
     visibilityBtnLabel.setFont(font);
     visibilityBtnLabel.setString("Sichtbarkeit");
     visibilityBtnLabel.setCharacterSize(15);
-    visibilityBtnLabel.setFillColor(Colors::Black);
+    visibilityBtnLabel.setFillColor(Colors::Black());
     visibilityBtnLabel.setPosition(162, 55);
 
     jsonBtn.setSize(sf::Vector2f(150, 40));
     jsonBtn.setPosition(150, 50);
-    jsonBtn.setFillColor(Colors::SuccessGreen);
-    jsonBtn.setOutlineColor(Colors::DarkGreen);
+    jsonBtn.setFillColor(Colors::SuccessGreen());
+    jsonBtn.setOutlineColor(Colors::SuccessGreen());
     jsonBtn.setOutlineThickness(2);
 
     jsonBtnLabel.setFont(font);
     jsonBtnLabel.setString("JSON-Data");
     jsonBtnLabel.setCharacterSize(18);
-    jsonBtnLabel.setFillColor(Colors::Black);
+    jsonBtnLabel.setFillColor(Colors::Black());
     jsonBtnLabel.setPosition(170, 58);
 
     gameOverLabel.setFont(font);
     gameOverLabel.setCharacterSize(36);
-    gameOverLabel.setFillColor(Colors::ErrorRed);
+    gameOverLabel.setFillColor(Colors::ErrorRed());
 
     winnerLabel.setFont(font);
     winnerLabel.setCharacterSize(24);
-    winnerLabel.setFillColor(Colors::SuccessGreen);
+    winnerLabel.setFillColor(Colors::SuccessGreen());
 }
 
 BoardArea BoardRenderer::getBoardArea(sf::RenderWindow& window, Board& board, bool leftBoard) {
@@ -124,6 +124,24 @@ BoardArea BoardRenderer::getBoardArea(sf::RenderWindow& window, Board& board, bo
 
 void BoardRenderer::render(sf::RenderWindow& window, Board& board, const std::string& playerName, bool leftBoard,
                            bool showPlacementInfo, bool active) {
+    player1BoardLabel.setFillColor(Colors::Black());
+    player2BoardLabel.setFillColor(Colors::Black());
+    backBtnLabel.setFillColor(Colors::Black());
+    readyBtnLabel.setFillColor(Colors::Black());
+    visibilityBtnLabel.setFillColor(Colors::Black());
+    jsonBtnLabel.setFillColor(Colors::Black());
+    for (int i = 0; i < 10; i++) {
+        columnLabels[i].setFillColor(Colors::SuccessGreen());
+        rowLabels[i].setFillColor(Colors::SuccessGreen());
+    }
+    backBtn.setFillColor(Colors::SuccessGreen());
+    backBtn.setOutlineColor(Colors::SuccessGreen());
+    readyBtn.setFillColor(Colors::SuccessGreen());
+    readyBtn.setOutlineColor(Colors::SuccessGreen());
+    visibilityBtn.setOutlineColor(Colors::SuccessGreen());
+    jsonBtn.setFillColor(Colors::SuccessGreen());
+    jsonBtn.setOutlineColor(Colors::SuccessGreen());
+
     //  ------------------------------
     //  Positioning Labels
     //  ------------------------------
@@ -176,10 +194,10 @@ void BoardRenderer::render(sf::RenderWindow& window, Board& board, const std::st
     border.setPosition(area.x - 4, area.y - 4);
     border.setSize(sf::Vector2f(area.width + 8, area.height + 8));
     if (active) {
-        border.setOutlineColor(Colors::SuccessGreen);
+        border.setOutlineColor(Colors::SuccessGreen());
         border.setOutlineThickness(6);
     } else {
-        border.setOutlineColor(Colors::DarkGreen);
+        border.setOutlineColor(Colors::SuccessGreen());
         border.setOutlineThickness(3);
     }
 
@@ -200,22 +218,22 @@ void BoardRenderer::render(sf::RenderWindow& window, Board& board, const std::st
     readyBtnLabel.setPosition(centerX - readyBtnLabel.getGlobalBounds().width / 2.f, area.y + area.height + 178);
 
     fleetInfoLabel.setString(fleetInfo);
-    fleetInfoLabel.setFillColor(Colors::Black);
+    fleetInfoLabel.setFillColor(Colors::Black());
     fleetInfoLabel.setPosition(centerX - fleetInfoLabel.getGlobalBounds().width / 2.0f, area.y + area.height + 30);
 
     if (board.isPlacementReady()) {
         readyLabel.setString("READY");
-        readyLabel.setFillColor(Colors::SuccessGreen);
+        readyLabel.setFillColor(Colors::SuccessGreen());
     } else {
         readyLabel.setString("NOT READY");
-        readyLabel.setFillColor(Colors::ErrorRed);
+        readyLabel.setFillColor(Colors::ErrorRed());
     }
     readyLabel.setPosition(centerX - readyLabel.getGlobalBounds().width / 2.0f, area.y + area.height + 120);
 
     if (board.areShipsVisible()) {
-        visibilityBtn.setFillColor(Colors::SuccessGreen);
+        visibilityBtn.setFillColor(Colors::SuccessGreen());
     } else {
-        visibilityBtn.setFillColor(Colors::ErrorRed);
+        visibilityBtn.setFillColor(Colors::ErrorRed());
     }
 
     if (showPlacementInfo) {
