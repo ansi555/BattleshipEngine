@@ -63,6 +63,9 @@ void Window::handleEvents() {
                     player1Board.finishPlacement();
                     state = PLACE_SHIPS_P2;
                 }
+                if (boardRenderer.isJsonBtnClicked(window)) {
+                    player1Board.loadPlacementFromJson("Assets/placements.json");
+                }
             } else if (state == PLACE_SHIPS_P2) {
                 Coordinate clickedCell = boardRenderer.getClickedCell(window, player2Board, false);
                 if (clickedCell.x != -1) {
@@ -75,6 +78,9 @@ void Window::handleEvents() {
                 if (boardRenderer.isReadyBtnClicked(window) && player2Board.isPlacementReady()) {
                     player2Board.finishPlacement();
                     state = PLAYER_1_TURN;
+                }
+                if (boardRenderer.isJsonBtnClicked(window)) {
+                    player2Board.loadPlacementFromJson("Assets/placements.json");
                 }
             } else if (state == PLAYER_1_TURN) {
                 Coordinate clickedCell = boardRenderer.getClickedCell(window, player2Board, false);
@@ -89,17 +95,11 @@ void Window::handleEvents() {
 
                     engine.addMove(move);
 
-                    std::cout << clickedCell.toString();
-
                     if (hit) {
-                        std::cout << " HIT";
+                        state = PLAYER_1_TURN;
                     } else {
-                        std::cout << " MISS";
+                        state = PLAYER_2_TURN;
                     }
-
-                    std::cout << std::endl;
-
-                    state = PLAYER_2_TURN;
                 }
 
                 if (boardRenderer.isBackBtnClicked(window)) {
@@ -123,17 +123,11 @@ void Window::handleEvents() {
 
                     engine.addMove(move);
 
-                    std::cout << clickedCell.toString();
-
                     if (hit) {
-                        std::cout << " HIT";
+                        state = PLAYER_2_TURN;
                     } else {
-                        std::cout << " MISS";
+                        state = PLAYER_1_TURN;
                     }
-
-                    std::cout << std::endl;
-
-                    state = PLAYER_1_TURN;
                 }
 
                 if (boardRenderer.isBackBtnClicked(window)) {
@@ -165,31 +159,31 @@ void Window::render() {
     if (state == PLACE_SHIPS_P1) {
         BoardArea playerArea = boardRenderer.getBoardArea(window, player1Board, true);
         boardRenderer.render(window, player1Board, true, true, false);
-        shipRenderer.render(window, player1Board, playerArea, true);
+        shipRenderer.render(window, player1Board, playerArea, true, true);
     }
 
     if (state == PLACE_SHIPS_P2) {
         BoardArea enemyArea = boardRenderer.getBoardArea(window, player2Board, false);
         boardRenderer.render(window, player2Board, false, true, false);
-        shipRenderer.render(window, player2Board, enemyArea, false);
+        shipRenderer.render(window, player2Board, enemyArea, false, true);
     }
 
     if (state == PLAYER_1_TURN) {
         BoardArea playerArea = boardRenderer.getBoardArea(window, player1Board, true);
         BoardArea enemyArea = boardRenderer.getBoardArea(window, player2Board, false);
-        boardRenderer.render(window, player1Board, true, false, true);
-        boardRenderer.render(window, player2Board, false, false, false);
-        shipRenderer.render(window, player1Board, playerArea, true);
-        shipRenderer.render(window, player2Board, enemyArea, false);
+        boardRenderer.render(window, player1Board, true, false, false);
+        boardRenderer.render(window, player2Board, false, false, true);
+        shipRenderer.render(window, player1Board, playerArea, true, false);
+        shipRenderer.render(window, player2Board, enemyArea, false, false);
     }
 
     if (state == PLAYER_2_TURN) {
         BoardArea playerArea = boardRenderer.getBoardArea(window, player1Board, true);
         BoardArea enemyArea = boardRenderer.getBoardArea(window, player2Board, false);
-        boardRenderer.render(window, player1Board, true, false, false);
-        boardRenderer.render(window, player2Board, false, false, true);
-        shipRenderer.render(window, player1Board, playerArea, true);
-        shipRenderer.render(window, player2Board, enemyArea, false);
+        boardRenderer.render(window, player1Board, true, false, true);
+        boardRenderer.render(window, player2Board, false, false, false);
+        shipRenderer.render(window, player1Board, playerArea, true, false);
+        shipRenderer.render(window, player2Board, enemyArea, false, false);
     }
 
     window.display();

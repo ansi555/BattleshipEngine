@@ -12,5 +12,5 @@ class ShipRenderer {
 
    public:
     void init(sf::Font& font);
-    void render(sf::RenderWindow& window, Board& board, BoardArea area, bool leftBoard);
+    void render(sf::RenderWindow& window, Board& board, BoardArea area, bool leftBoard, bool showPlacementCells);
 };

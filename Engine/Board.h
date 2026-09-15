@@ -1,5 +1,6 @@
 #pragma once
 
+#include <string>
 #include <vector>
 
 #include "Coordinate.h"
@@ -50,6 +51,8 @@ class Board {
     bool areShipsVisible() const;
 
     void finishPlacement();
+
+    void loadPlacementFromJson(const std::string& filePath);
 
     const std::vector<Coordinate>& getSelectedPlacementCells() const;
     const std::vector<Ship>& getShips() const;

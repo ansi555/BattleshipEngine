@@ -75,6 +75,18 @@ void BoardRenderer::init(sf::Font& font) {
     visibilityBtnLabel.setString("Sichtbarkeit");
     visibilityBtnLabel.setCharacterSize(15);
     visibilityBtnLabel.setFillColor(Colors::Black);
+
+    jsonBtn.setSize(sf::Vector2f(150, 40));
+    jsonBtn.setPosition(150, 50);
+    jsonBtn.setFillColor(Colors::SuccessGreen);
+    jsonBtn.setOutlineColor(Colors::DarkGreen);
+    jsonBtn.setOutlineThickness(2);
+
+    jsonBtnLabel.setFont(font);
+    jsonBtnLabel.setString("JSON-Data");
+    jsonBtnLabel.setCharacterSize(18);
+    jsonBtnLabel.setFillColor(Colors::Black);
+    jsonBtnLabel.setPosition(170, 58);
 }
 
 BoardArea BoardRenderer::getBoardArea(sf::RenderWindow& window, Board& board, bool leftBoard) {
@@ -208,6 +220,9 @@ void BoardRenderer::render(sf::RenderWindow& window, Board& board, bool leftBoar
         window.draw(visibilityBtnLabel);
     }
 
+    window.draw(jsonBtn);
+    window.draw(jsonBtnLabel);
+
     //  ------------------------------
     //  Positioning and generated cells
     //  ------------------------------
@@ -228,18 +243,20 @@ Coordinate BoardRenderer::getClickedCell(sf::RenderWindow& window, Board& board,
 
 bool BoardRenderer::isBackBtnClicked(sf::RenderWindow& window) {
     sf::Vector2i mousePos = sf::Mouse::getPosition(window);
-
     return backBtn.getGlobalBounds().contains(mousePos.x, mousePos.y);
 }
 
 bool BoardRenderer::isReadyBtnClicked(sf::RenderWindow& window) {
     sf::Vector2i mousePos = sf::Mouse::getPosition(window);
-
     return readyBtn.getGlobalBounds().contains(mousePos.x, mousePos.y);
 }
 
 bool BoardRenderer::isVisibilityBtnClicked(sf::RenderWindow& window) {
     sf::Vector2i mousePos = sf::Mouse::getPosition(window);
-
     return visibilityBtn.getGlobalBounds().contains(mousePos.x, mousePos.y);
+}
+
+bool BoardRenderer::isJsonBtnClicked(sf::RenderWindow& window) {
+    sf::Vector2i mousePos = sf::Mouse::getPosition(window);
+    return jsonBtn.getGlobalBounds().contains(mousePos.x, mousePos.y);
 }

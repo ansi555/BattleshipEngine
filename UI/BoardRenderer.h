@@ -33,6 +33,9 @@ class BoardRenderer {
     sf::RectangleShape visibilityBtn;
     sf::Text visibilityBtnLabel;
 
+    sf::RectangleShape jsonBtn;
+    sf::Text jsonBtnLabel;
+
    public:
     void init(sf::Font& font);
 
@@ -47,4 +50,6 @@ class BoardRenderer {
     bool isReadyBtnClicked(sf::RenderWindow& window);
 
     bool isVisibilityBtnClicked(sf::RenderWindow& window);
+
+    bool isJsonBtnClicked(sf::RenderWindow& window);
 };

@@ -1,6 +1,8 @@
 #include "Board.h"
 
+#include <fstream>
 #include <iostream>
+#include <regex>
 
 Board::Board(int boardWidth, int boardHeight) {
     width = boardWidth;
@@ -320,6 +322,25 @@ void Board::finishPlacement() {
         Ship ship(shipCells);
         placeShip(ship);
     }
+}
+
+void Board::loadPlacementFromJson(const std::string& filePath) {
+    selectedPlacementCells.clear();
+    std::ifstream file(filePath);
+    if (!file.is_open()) {
+        std::cout << "Could not open " << filePath << std::endl;
+        return;
+    }
+    std::string json((std::istreambuf_iterator<char>(file)), std::istreambuf_iterator<char>());
+    std::regex coordinatePattern(R"(\[(\d+),(\d+)])");
+    std::sregex_iterator begin(json.begin(), json.end(), coordinatePattern);
+    std::sregex_iterator end;
+    for (auto it = begin; it != end; ++it) {
+        int x = std::stoi((*it)[1]);
+        int y = std::stoi((*it)[2]);
+        selectedPlacementCells.push_back(Coordinate(x, y));
+    }
+    std::cout << "Loaded " << selectedPlacementCells.size() << " placement cells." << std::endl;
 }
 
 const std::vector<Coordinate>& Board::getSelectedPlacementCells() const {

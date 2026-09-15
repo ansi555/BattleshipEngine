@@ -12,7 +12,8 @@ void ShipRenderer::init(sf::Font& font) {
     player2Board.placeShip(destroyer);
 }
 
-void ShipRenderer::render(sf::RenderWindow& window, Board& board, BoardArea area, bool leftBoard) {
+void ShipRenderer::render(sf::RenderWindow& window, Board& board, BoardArea area, bool leftBoard,
+                          bool showPlacementCells) {
     const int cellSize = 35;
 
     for (int row = 0; row < board.getHeight(); row++) {
@@ -26,11 +27,19 @@ void ShipRenderer::render(sf::RenderWindow& window, Board& board, BoardArea area
 
             bool containsShip = false;
             bool isInvalidPlacementCell = false;
+            bool isPlacementCell = false;
             bool belongsToSunkShip = false;
 
             for (const Coordinate& invalidCell : board.getInvalidPlacementCells()) {
                 if (invalidCell.x == col && invalidCell.y == row) {
                     isInvalidPlacementCell = true;
+                    break;
+                }
+            }
+
+            for (const Coordinate& placementCell : board.getSelectedPlacementCells()) {
+                if (placementCell.x == col && placementCell.y == row) {
+                    isPlacementCell = true;
                     break;
                 }
             }
@@ -70,6 +79,8 @@ void ShipRenderer::render(sf::RenderWindow& window, Board& board, BoardArea area
 
             if (isInvalidPlacementCell) {
                 cell.setFillColor(Colors::ErrorRed);
+            } else if (isPlacementCell && showPlacementCells) {
+                cell.setFillColor(Colors::Purpur);
             } else if (belongsToSunkShip) {
                 cell.setFillColor(Colors::Purpur);
             } else if (isHit) {
