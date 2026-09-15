@@ -263,6 +263,49 @@ void Board::togglePlacementCell(Coordinate coord) {
     selectedPlacementCells.push_back(coord);
 }
 
+std::vector<Coordinate> Board::getInvalidPlacementCells() const {
+    std::vector<Coordinate> invalidCells;
+
+    auto ships = getPlacementShips();
+
+    for (const auto& ship : ships) {
+        if (!isStraightShip(ship)) {
+            invalidCells.insert(invalidCells.end(), ship.begin(), ship.end());
+        }
+    }
+
+    for (size_t i = 0; i < ships.size(); i++) {
+        for (size_t j = i + 1; j < ships.size(); j++) {
+            bool touching = false;
+
+            for (const Coordinate& cell1 : ships[i]) {
+                for (const Coordinate& cell2 : ships[j]) {
+                    int dx = std::abs(cell1.x - cell2.x);
+
+                    int dy = std::abs(cell1.y - cell2.y);
+
+                    if (dx <= 1 && dy <= 1) {
+                        touching = true;
+                        break;
+                    }
+                }
+
+                if (touching) {
+                    break;
+                }
+            }
+
+            if (touching) {
+                invalidCells.insert(invalidCells.end(), ships[i].begin(), ships[i].end());
+
+                invalidCells.insert(invalidCells.end(), ships[j].begin(), ships[j].end());
+            }
+        }
+    }
+
+    return invalidCells;
+}
+
 const std::vector<Coordinate>& Board::getSelectedPlacementCells() const {
     return selectedPlacementCells;
 }

@@ -40,10 +40,11 @@ class Board {
 
     void togglePlacementCell(Coordinate coord);
 
-    const std::vector<Coordinate>& getSelectedPlacementCells() const;
-
     bool shipsAreSeparated(const std::vector<std::vector<Coordinate>>& ships) const;
 
+    std::vector<Coordinate> getInvalidPlacementCells() const;
+
+    const std::vector<Coordinate>& getSelectedPlacementCells() const;
     const std::vector<Ship>& getShips() const;
     const std::vector<Coordinate>& getHits() const;
     const std::vector<Coordinate>& getMisses() const;
