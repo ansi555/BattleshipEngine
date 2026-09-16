@@ -13,6 +13,11 @@ class ConsoleWidget {
     std::vector<std::string> history;
     bool commandReady = false;
 
+    sf::RectangleShape consoleBtn;
+    sf::Text consoleBtnLabel;
+
+    bool visible = false;
+
    public:
     void init(sf::Font& font);
     void handleTextInput(const sf::Event& event);
@@ -22,4 +27,9 @@ class ConsoleWidget {
     void addHistory(const std::string& entry);
     std::string getBuffer() const;
     void render(sf::RenderWindow& window);
+
+    void toggleConsole();
+    bool isConsoleBtnClicked(sf::RenderWindow& window);
+    bool isVisible() const;
+    void renderToggleButton(sf::RenderWindow& window);
 };

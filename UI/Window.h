@@ -22,6 +22,7 @@ class Window {
     GameEngine engine;
     MenuRenderer menuRenderer;
     BoardRenderer boardRenderer;
+    ConsoleWidget consoleWidget;
     ShipRenderer shipRenderer;
     GameState state;
 

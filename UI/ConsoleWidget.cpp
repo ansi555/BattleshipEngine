@@ -19,6 +19,14 @@ void ConsoleWidget::init(sf::Font& font) {
     inputText.setFillColor(Colors::Black());
     inputText.setPosition(220.f, 835.f);
 
+    consoleBtn.setSize(sf::Vector2f(120.f, 30.f));
+    consoleBtn.setPosition(740.f, 20.f);
+    consoleBtn.setOutlineThickness(2.f);
+
+    consoleBtnLabel.setFont(font);
+    consoleBtnLabel.setCharacterSize(15);
+    consoleBtnLabel.setFillColor(sf::Color::Black);
+
     currentInput.clear();
 }
 
@@ -68,14 +76,46 @@ std::string ConsoleWidget::getBuffer() const {
 }
 
 void ConsoleWidget::render(sf::RenderWindow& window) {
-    std::string historyString;
-    for (const std::string& line : history) {
-        historyString += line;
-        historyString += "\n";
+    if (isVisible()) {
+        std::string historyString;
+        for (const std::string& line : history) {
+            historyString += line;
+            historyString += "\n";
+        }
+        historyText.setString(historyString);
+        inputText.setString("> " + currentInput);
+        window.draw(background);
+        window.draw(historyText);
+        window.draw(inputText);
     }
-    historyText.setString(historyString);
-    inputText.setString("> " + currentInput);
-    window.draw(background);
-    window.draw(historyText);
-    window.draw(inputText);
+}
+
+void ConsoleWidget::toggleConsole() {
+    visible = !visible;
+}
+
+bool ConsoleWidget::isVisible() const {
+    return visible;
+}
+
+bool ConsoleWidget::isConsoleBtnClicked(sf::RenderWindow& window) {
+    sf::Vector2i mousePos = sf::Mouse::getPosition(window);
+    return consoleBtn.getGlobalBounds().contains(mousePos.x, mousePos.y);
+}
+
+void ConsoleWidget::renderToggleButton(sf::RenderWindow& window) {
+    if (visible) {
+        consoleBtn.setFillColor(sf::Color::Green);
+
+        consoleBtnLabel.setString("Schliessen");
+    } else {
+        consoleBtn.setFillColor(sf::Color::Red);
+
+        consoleBtnLabel.setString("Konsole");
+    }
+
+    consoleBtnLabel.setPosition(consoleBtn.getPosition().x + 10.f, consoleBtn.getPosition().y + 4.f);
+
+    window.draw(consoleBtn);
+    window.draw(consoleBtnLabel);
 }

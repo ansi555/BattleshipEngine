@@ -20,6 +20,7 @@ Window::Window() {
 
     menuRenderer.init(font);
     boardRenderer.init(font);
+    consoleWidget.init(font);
     // shipRenderer.init(font);
 
     player1.setName("Finja");
@@ -48,6 +49,22 @@ void Window::handleEvents() {
     while (window.pollEvent(event)) {
         if (event.type == sf::Event::Closed) {
             window.close();
+        }
+
+        if (event.type == sf::Event::MouseButtonPressed) {
+            if (consoleWidget.isConsoleBtnClicked(window)) {
+                consoleWidget.toggleConsole();
+                return;
+            }
+        }
+
+        if (consoleWidget.isVisible()) {
+            if (event.type == sf::Event::TextEntered) {
+                consoleWidget.handleTextInput(event);
+            }
+            if (event.type == sf::Event::KeyPressed) {
+                consoleWidget.handleKeyPressed(event);
+            }
         }
 
         if (event.type == sf::Event::MouseButtonPressed) {
@@ -181,7 +198,12 @@ void Window::handleEvents() {
     }
 }
 
-void Window::update() {}
+void Window::update() {
+    if (consoleWidget.hasCommandReady()) {
+        std::string command = consoleWidget.consumeCommand();
+        std::cout << "COMMAND: " << command << std::endl;
+    }
+}
 
 void Window::renderDarkModeButton() {
     const sf::Vector2u windowSize = window.getSize();
@@ -270,6 +292,8 @@ void Window::render() {
         boardRenderer.renderGameOver(window, winner);
     }
 
+    consoleWidget.render(window);
+    consoleWidget.renderToggleButton(window);
     renderDarkModeButton();
     window.display();
 }

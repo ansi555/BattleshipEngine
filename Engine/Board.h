@@ -19,6 +19,8 @@ class Board {
 
     bool shipsVisible = false;
 
+    bool consoleVisible = false;
+
    public:
     Board(int width = 15, int height = 15);
 
