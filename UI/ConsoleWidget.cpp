@@ -19,8 +19,8 @@ void ConsoleWidget::init(sf::Font& font) {
     inputText.setFillColor(Colors::Black());
     inputText.setPosition(220.f, 835.f);
 
-    consoleBtn.setSize(sf::Vector2f(120.f, 30.f));
-    consoleBtn.setPosition(740.f, 20.f);
+    consoleBtn.setSize(sf::Vector2f(100.f, 30.f));
+    consoleBtn.setPosition(1450.f, 50.f);
     consoleBtn.setOutlineThickness(2.f);
 
     consoleBtnLabel.setFont(font);
@@ -105,11 +105,11 @@ bool ConsoleWidget::isConsoleBtnClicked(sf::RenderWindow& window) {
 
 void ConsoleWidget::renderToggleButton(sf::RenderWindow& window) {
     if (visible) {
-        consoleBtn.setFillColor(sf::Color::Green);
+        consoleBtn.setFillColor(Colors::SuccessGreen());
 
         consoleBtnLabel.setString("Schliessen");
     } else {
-        consoleBtn.setFillColor(sf::Color::Red);
+        consoleBtn.setFillColor(Colors::ErrorRed());
 
         consoleBtnLabel.setString("Konsole");
     }
