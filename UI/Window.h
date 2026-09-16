@@ -7,6 +7,7 @@
 #include "../Engine/GameEngine.h"
 #include "../Engine/Player.h"
 #include "BoardRenderer.h"
+#include "ConsoleWidget.h"
 #include "GameState.h"
 #include "MenuRenderer.h"
 #include "ShipRenderer.h"
