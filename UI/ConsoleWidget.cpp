@@ -3,8 +3,8 @@
 #include "../Assets/Colors.h"
 
 void ConsoleWidget::init(sf::Font& font) {
-    background.setSize(sf::Vector2f(1200.f, 140.f));
-    background.setPosition(sf::Vector2f(200.f, 730.f));
+    background.setSize(sf::Vector2f(1200.f, 200.f));
+    background.setPosition(sf::Vector2f(200.f, 670.f));
     background.setFillColor(Colors::CellGrey());
     background.setOutlineColor(Colors::Black());
     background.setOutlineThickness(2.f);
@@ -12,7 +12,7 @@ void ConsoleWidget::init(sf::Font& font) {
     historyText.setFont(font);
     historyText.setCharacterSize(18);
     historyText.setFillColor(Colors::Black());
-    historyText.setPosition(220.f, 740.f);
+    historyText.setPosition(220.f, 710.f);
 
     inputText.setFont(font);
     inputText.setCharacterSize(18);

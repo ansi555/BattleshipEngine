@@ -199,9 +199,30 @@ void Window::handleEvents() {
 }
 
 void Window::update() {
-    if (consoleWidget.hasCommandReady()) {
-        std::string command = consoleWidget.consumeCommand();
-        std::cout << "COMMAND: " << command << std::endl;
+    if (!consoleWidget.hasCommandReady()) {
+        return;
+    }
+
+    std::string command = consoleWidget.consumeCommand();
+
+    if (state == PLACE_SHIPS_P1) {
+        if (CommandParser::isCoordinate(command)) {
+            Coordinate coordinate = CommandParser::parseCoordinate(command);
+
+            player1Board.togglePlacementCell(coordinate);
+
+            consoleWidget.addHistory(coordinate.toString());
+        }
+    }
+
+    if (state == PLACE_SHIPS_P2) {
+        if (CommandParser::isCoordinate(command)) {
+            Coordinate coordinate = CommandParser::parseCoordinate(command);
+
+            player2Board.togglePlacementCell(coordinate);
+
+            consoleWidget.addHistory(coordinate.toString());
+        }
     }
 }
 
