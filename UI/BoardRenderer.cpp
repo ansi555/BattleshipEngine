@@ -22,7 +22,7 @@ void BoardRenderer::init(sf::Font& font) {
     for (int i = 0; i < 10; i++) {
         columnLabels[i].setFont(font);
         columnLabels[i].setString(std::string(1, 'A' + i));
-        columnLabels[i].setCharacterSize(10);
+        columnLabels[i].setCharacterSize(16);
         columnLabels[i].setFillColor(Colors::SuccessGreen());
 
         rowLabels[i].setFont(font);
@@ -31,7 +31,7 @@ void BoardRenderer::init(sf::Font& font) {
             number = "0" + number;
         }
         rowLabels[i].setString(number);
-        rowLabels[i].setCharacterSize(10);
+        rowLabels[i].setCharacterSize(16);
         rowLabels[i].setFillColor(Colors::SuccessGreen());
     }
 
@@ -176,14 +176,12 @@ void BoardRenderer::render(sf::RenderWindow& window, Board& board, const std::st
     }
 
     for (int row = 0; row < board.getHeight(); row++) {
+        float rowY = area.y + row * cellSize + (cellSize - rowLabels[row].getGlobalBounds().height) / 2.f - 5;
         if (leftBoard) {
-            rowLabels[row].setPosition(
-                area.x - rowLabels[row].getGlobalBounds().width - 30,
-                area.y + row * cellSize + (cellSize - rowLabels[row].getGlobalBounds().height) / 2);
+            rowLabels[row].setPosition(area.x - rowLabels[row].getGlobalBounds().width - 30, rowY);
         } else {
-            rowLabels[row].setPosition(area.x + area.width + 30, area.y + row * cellSize + 2);
+            rowLabels[row].setPosition(area.x + area.width + 30, rowY);
         }
-
         window.draw(rowLabels[row]);
     }
 

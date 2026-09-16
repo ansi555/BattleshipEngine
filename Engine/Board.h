@@ -54,6 +54,8 @@ class Board {
 
     void loadPlacementFromJson(const std::string& filePath);
 
+    void generateRandomPlacement();
+
     const std::vector<Coordinate>& getSelectedPlacementCells() const;
     const std::vector<Ship>& getShips() const;
     const std::vector<Coordinate>& getHits() const;

@@ -77,9 +77,9 @@ void Window::handleEvents() {
                     state = PLACE_SHIPS_P2;
                 }
                 if (boardRenderer.isJsonBtnClicked(window)) {
-                    player1Board.loadPlacementFromJson("Assets/placements.json");
-                    std::cout << "Loaded " << player1Board.getSelectedPlacementCells().size() << " placement cells."
-                              << std::endl;
+                    player1Board.generateRandomPlacement();
+                    std::cout << "Loaded " << player1Board.getSelectedPlacementCells().size() << " placement cells for "
+                              << player1.getName() << "." << std::endl;
                 }
             } else if (state == PLACE_SHIPS_P2) {
                 Coordinate clickedCell = boardRenderer.getClickedCell(window, player2Board, false);
@@ -95,9 +95,9 @@ void Window::handleEvents() {
                     state = PLAYER_1_TURN;
                 }
                 if (boardRenderer.isJsonBtnClicked(window)) {
-                    player2Board.loadPlacementFromJson("Assets/placements.json");
-                    std::cout << "Loaded " << player2Board.getSelectedPlacementCells().size() << " placement cells."
-                              << std::endl;
+                    player2Board.generateRandomPlacement();
+                    std::cout << "Loaded " << player2Board.getSelectedPlacementCells().size() << " placement cells for "
+                              << player2.getName() << "." << std::endl;
                 }
             } else if (state == PLAYER_1_TURN) {
                 Coordinate clickedCell = boardRenderer.getClickedCell(window, player2Board, false);
@@ -260,8 +260,10 @@ void Window::renderDarkModeButton() {
     darkModeButtonLabel.setString(Colors::darkMode ? "Lightmode" : "Darkmode");
     darkModeButtonLabel.setFillColor(Colors::Black());
     darkModeButtonLabel.setPosition(
-        darkModeButton.getPosition().x + (darkModeButton.getSize().x - darkModeButtonLabel.getGlobalBounds().width) / 2.f,
-        darkModeButton.getPosition().y + (darkModeButton.getSize().y - darkModeButtonLabel.getGlobalBounds().height) / 2.f - 4.f);
+        darkModeButton.getPosition().x +
+            (darkModeButton.getSize().x - darkModeButtonLabel.getGlobalBounds().width) / 2.f,
+        darkModeButton.getPosition().y +
+            (darkModeButton.getSize().y - darkModeButtonLabel.getGlobalBounds().height) / 2.f - 4.f);
 
     window.draw(darkModeButton);
     window.draw(darkModeButtonLabel);

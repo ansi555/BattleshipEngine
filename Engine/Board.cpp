@@ -1,7 +1,9 @@
 #include "Board.h"
 
+#include <ctime>
 #include <fstream>
 #include <iostream>
+#include <random>
 #include <regex>
 
 Board::Board(int boardWidth, int boardHeight) {
@@ -335,6 +337,54 @@ void Board::loadPlacementFromJson(const std::string& filePath) {
         int x = std::stoi((*it)[1]);
         int y = std::stoi((*it)[2]);
         selectedPlacementCells.push_back(Coordinate(x, y));
+    }
+}
+
+bool overlapsOrTouches(const std::vector<Coordinate>& existing, const std::vector<Coordinate>& candidate) {
+    for (const Coordinate& a : existing) {
+        for (const Coordinate& b : candidate) {
+            int dx = std::abs(a.x - b.x);
+            int dy = std::abs(a.y - b.y);
+
+            if (dx <= 1 && dy <= 1) {
+                return true;
+            }
+        }
+    }
+    return false;
+}
+
+void Board::generateRandomPlacement() {
+    selectedPlacementCells.clear();
+    std::vector<int> shipLengths = {4, 3, 3, 2, 2, 2};
+    std::mt19937 rng(static_cast<unsigned>(std::time(nullptr)));
+    for (int length : shipLengths) {
+        bool placed = false;
+        while (!placed) {
+            bool horizontal = std::uniform_int_distribution<>(0, 1)(rng);
+            int x = std::uniform_int_distribution<>(0, width - 1)(rng);
+            int y = std::uniform_int_distribution<>(0, height - 1)(rng);
+            std::vector<Coordinate> ship;
+            bool valid = true;
+            for (int i = 0; i < length; i++) {
+                Coordinate c;
+                c.x = horizontal ? x + i : x;
+                c.y = horizontal ? y : y + i;
+                if (c.x >= width || c.y >= height) {
+                    valid = false;
+                    break;
+                }
+                ship.push_back(c);
+            }
+            if (!valid) {
+                continue;
+            }
+            if (overlapsOrTouches(selectedPlacementCells, ship)) {
+                continue;
+            }
+            selectedPlacementCells.insert(selectedPlacementCells.end(), ship.begin(), ship.end());
+            placed = true;
+        }
     }
 }
 
