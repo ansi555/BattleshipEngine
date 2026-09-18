@@ -4,9 +4,11 @@
 
 #include "../Assets/Colors.h"
 #include "../Engine/Board.h"
+#include "../Engine/CommandParser.h"
 #include "../Engine/GameEngine.h"
 #include "../Engine/Player.h"
 #include "BoardRenderer.h"
+#include "ConsoleWidget.h"
 #include "GameState.h"
 #include "MenuRenderer.h"
 #include "ShipRenderer.h"
@@ -21,7 +23,9 @@ class Window {
     GameEngine engine;
     MenuRenderer menuRenderer;
     BoardRenderer boardRenderer;
+    ConsoleWidget consoleWidget;
     ShipRenderer shipRenderer;
+    CommandParser commandParser;
     GameState state;
 
     Board player1Board;

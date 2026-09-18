@@ -65,7 +65,7 @@ void BoardRenderer::init(sf::Font& font) {
     readyBtnLabel.setCharacterSize(18);
     readyBtnLabel.setFillColor(Colors::Black());
 
-    visibilityBtn.setSize(sf::Vector2f(100, 30));
+    visibilityBtn.setSize(sf::Vector2f(80, 30));
     visibilityBtn.setOutlineColor(Colors::SuccessGreen());
     visibilityBtn.setOutlineThickness(2);
     visibilityBtn.setPosition(150, 50);
