@@ -1,5 +1,5 @@
+# **🚢 Battleship C++ (SFML)**
 
-🚢 Battleship C++ (SFML)
 Ein klassisches Schiffe-Versenken-Spiel in C++, visualisiert mit der SFML-Bibliothek. Das Spiel verfügt über eine grafische Klick-Oberfläche sowie eine integrierte, grafisch nachgebildete Konsole für Texteingaben und -ausgaben.
 Zusätzlich bietet das Spiel ein Spiel-Archiv und einen Replay-Modus, um vergangene Partien Schritt für Schritt Revue passieren zu lassen.
 🛠️ Voraussetzungen & Installation
