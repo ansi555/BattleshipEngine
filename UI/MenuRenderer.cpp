@@ -8,19 +8,23 @@ void MenuRenderer::init(sf::Font &font)
     title.setString("Battleship Test");
     title.setCharacterSize(40);
     title.setFillColor(Colors::Black());
-    title.setPosition(250, 100);
 
     boardBtn.setFont(font);
     boardBtn.setString("Zum Spiel (Test)");
     boardBtn.setCharacterSize(25);
     boardBtn.setFillColor(Colors::SuccessGreen());
-    boardBtn.setPosition(300, 250);
 }
 
 void MenuRenderer::render(sf::RenderWindow &window)
 {
     title.setFillColor(Colors::Black());
+    title.setPosition(
+        window.getSize().x / 2 - title.getGlobalBounds().width / 2, 100
+    );
     boardBtn.setFillColor(Colors::SuccessGreen());
+    boardBtn.setPosition(
+        window.getSize().x / 2 - boardBtn.getGlobalBounds().width / 2, 250
+    );
     window.draw(title);
     window.draw(boardBtn);
 }
