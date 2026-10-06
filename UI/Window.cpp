@@ -266,7 +266,7 @@ void Window::renderBackground() {
 }
 
 void Window::render() {
-    window.clear(Colors::Menu());
+    window.clear();
     renderBackground();
 
     if (state == MENU) {

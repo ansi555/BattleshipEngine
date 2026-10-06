@@ -3,25 +3,25 @@
 #include "../Assets/Colors.h"
 
 void ConsoleWidget::init(sf::Font& font) {
-    background.setSize(sf::Vector2f(1200.f, 200.f));
-    background.setPosition(sf::Vector2f(200.f, 670.f));
+    background.setSize(sf::Vector2f(1200, 200));
+    background.setPosition(sf::Vector2f(200, 670));
     background.setFillColor(Colors::CellGrey());
     background.setOutlineColor(Colors::Black());
-    background.setOutlineThickness(2.f);
+    background.setOutlineThickness(2);
 
     historyText.setFont(font);
     historyText.setCharacterSize(18);
     historyText.setFillColor(Colors::Black());
-    historyText.setPosition(220.f, 710.f);
+    historyText.setPosition(220, 710);
 
     inputText.setFont(font);
     inputText.setCharacterSize(18);
     inputText.setFillColor(Colors::Black());
-    inputText.setPosition(220.f, 835.f);
+    inputText.setPosition(220, 835);
 
-    consoleBtn.setSize(sf::Vector2f(100.f, 30.f));
-    consoleBtn.setPosition(1450.f, 50.f);
-    consoleBtn.setOutlineThickness(2.f);
+    consoleBtn.setSize(sf::Vector2f(80, 30));
+    consoleBtn.setPosition(1450, 50);
+    consoleBtn.setOutlineThickness(2);
 
     consoleBtnLabel.setFont(font);
     consoleBtnLabel.setCharacterSize(15);

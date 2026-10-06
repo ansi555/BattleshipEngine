@@ -80,9 +80,9 @@ void ShipRenderer::render(sf::RenderWindow& window, Board& board, BoardArea area
             if (isInvalidPlacementCell) {
                 cell.setFillColor(Colors::ErrorRed());
             } else if (isPlacementCell && showPlacementCells) {
-                cell.setFillColor(Colors::Purpur());
+                cell.setFillColor(Colors::SandYellow());
             } else if (belongsToSunkShip) {
-                cell.setFillColor(Colors::Purpur());
+                cell.setFillColor(Colors::SandYellow());
             } else if (isHit) {
                 cell.setFillColor(Colors::SuccessGreen());
             } else if (isMiss) {

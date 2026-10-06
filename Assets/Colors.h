@@ -12,13 +12,13 @@ inline const sf::Color& Menu() {
 }
 
 inline const sf::Color& BackgroundTop() {
-    static const sf::Color light(246, 250, 248);
+    static const sf::Color light(235, 245, 255);
     static const sf::Color dark(28, 36, 45);
     return darkMode ? dark : light;
 }
 
 inline const sf::Color& BackgroundBottom() {
-    static const sf::Color light(223, 235, 228);
+    static const sf::Color light(180, 215, 235);
     static const sf::Color dark(16, 22, 28);
     return darkMode ? dark : light;
 }
@@ -63,9 +63,9 @@ inline const sf::Color& WaterBlue() {
     return darkMode ? dark : light;
 }
 
-inline const sf::Color& Purpur() {
-    static const sf::Color light(153, 102, 255);
-    static const sf::Color dark(110, 75, 185);
+inline const sf::Color& SandYellow() {
+    static const sf::Color light(222, 194, 111);
+    static const sf::Color dark(171, 142, 67);
     return darkMode ? dark : light;
 }
 
