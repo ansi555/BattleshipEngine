@@ -47,7 +47,7 @@ void BoardRenderer::init(sf::Font& font) {
     backBtn.setPosition(50, 50);
     backBtn.setFillColor(Colors::SuccessGreen());
     backBtn.setOutlineColor(Colors::SuccessGreen());
-    backBtn.setOutlineThickness(1);
+    backBtn.setOutlineThickness(2);
 
     backBtnLabel.setFont(font);
     backBtnLabel.setString("Back");
@@ -76,7 +76,7 @@ void BoardRenderer::init(sf::Font& font) {
     visibilityBtnLabel.setFillColor(Colors::Black());
     visibilityBtnLabel.setPosition(162, 55);
 
-    jsonBtn.setSize(sf::Vector2f(150, 40));
+    jsonBtn.setSize(sf::Vector2f(95, 30));
     jsonBtn.setPosition(150, 50);
     jsonBtn.setFillColor(Colors::SuccessGreen());
     jsonBtn.setOutlineColor(Colors::SuccessGreen());
@@ -84,9 +84,9 @@ void BoardRenderer::init(sf::Font& font) {
 
     jsonBtnLabel.setFont(font);
     jsonBtnLabel.setString("JSON-Data");
-    jsonBtnLabel.setCharacterSize(18);
+    jsonBtnLabel.setCharacterSize(15);
     jsonBtnLabel.setFillColor(Colors::Black());
-    jsonBtnLabel.setPosition(170, 58);
+    jsonBtnLabel.setPosition(160, 55);
 
     gameOverLabel.setFont(font);
     gameOverLabel.setCharacterSize(36);
